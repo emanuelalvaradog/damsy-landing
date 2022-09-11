@@ -1,0 +1,146 @@
+.appForm {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.appFormData {
+  font-size: 4rem;
+}
+
+.appFormData > h1 > span {
+  color: #52a444;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: #464646;
+}
+
+.formMenu {
+  width: 80%;
+  margin-top: 4rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  font-size: 3rem;
+  justify-content: center;
+  column-gap: 4rem;
+}
+
+.formMenu > button {
+  width: fit-content;
+  padding: 1.2rem 2rem;
+  font-size: 1.8rem;
+  background-color: #eaeaea;
+  border: 1px solid #999999;
+  color: #464646;
+  border-radius: 0.8rem;
+}
+
+.formMenu > button:hover {
+  border: 2px solid #52a444;
+}
+
+.formText {
+  border-radius: 0.8rem;
+  margin-top: 4rem;
+  width: 60%;
+  height: 20rem;
+  resize: none;
+  background-color: #eaeaea;
+  border: 1px solid #999999;
+  font-size: 2rem;
+  color: #464646;
+  padding: 1.8rem;
+  font-family: inherit;
+}
+
+.formText:focus {
+  outline: 1px solid #52a444;
+}
+
+.formText::placeholder {
+  color: #adadad;
+}
+
+.formButton {
+  margin-top: 4rem;
+  width: 25%;
+  height: 5rem;
+  background-color: #52a444;
+  border-radius: 0.8rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.explainBar {
+  margin-top: 2rem;
+  width: 60%;
+  /* background-color: blue; */
+}
+
+.explainBar > p {
+  font-size: 1.8rem;
+}
+
+.selectTags {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.selectBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.selectBar > div > label {
+  font-size: 1.6rem;
+}
+
+.selectBar > div > button {
+  border-radius: 100%;
+  width: 3rem;
+  height: 3rem;
+  align-self: center;
+  border: none;
+  background-color: #adadad;
+  cursor: pointer;
+}
+
+.selectBar > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  width: 20%;
+  height: 8rem;
+  background: rgba(137, 211, 124, 0.33);
+}
+
+.answer > h6 {
+  font-size: 1.8rem;
+}
+
+.answer > p {
+  font-size: 1.6rem;
+}
