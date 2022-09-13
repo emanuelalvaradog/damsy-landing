@@ -1,6 +1,15 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Damsy
+
+Cosas importantes por hacer:
+1. Implementar localizacion para que cambie de lenguaje con IP
+2. Implementar Firebase
+2.1 Auth
+2.2 Firestore
+3. Implementar la API de OpenAI
+4. Hacer el resto de la app
+
+## Getting Started 
 
 First, run the development server:
 
