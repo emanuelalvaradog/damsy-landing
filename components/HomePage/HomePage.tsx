@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import styles from "./Home.module.css";
+import Link from 'next/link'
 
 export function HomePage({ img }) {
   return (
@@ -19,7 +20,11 @@ export function HomePage({ img }) {
             alt="app preview"
           />
         </div>
-        <button className={styles.homeButton}>Empieza ya!</button>
+        <Link href="auth">
+          <button className={styles.homeButton}>Empieza ya!</button>
+        </Link>
+
+
       </div>
     </section>
   );
