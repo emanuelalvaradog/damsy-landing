@@ -3,3 +3,77 @@
     width: 100vw;
     height: 100vh;
 }
+
+.page{
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.page h1{
+    font-size: 3rem;
+    margin-bottom: 5vh;
+}
+
+.page input{
+    border: none;
+    border-radius: 30px;
+    background-color: #F6F6F6;
+    padding: 1em 4em;
+    margin-bottom: 2em;
+}
+
+.page input:focus{
+    outline: none;
+    border: 1px solid #32936F;
+}
+
+.continueBtn{
+    border: 1px solid #32936F;
+    background-color: white;
+    color: #32936F;
+    font-size: 1.5rem;
+    padding: 0.5em 4em;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.forgotPasswordBtn{
+    border: none;
+    color: #91919E;
+    background-color: white;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 2vh;
+}
+
+.forgotPasswordBtn:hover{
+    color: #777781;
+}
+
+.greenBtn{
+    border: none;
+    background-color: white;
+    color: #32936F;
+    font-size: 1.9rem;
+    cursor: pointer;
+}
+
+.smolHr{
+    width: 2vw;
+    margin: 3vh 0vw;
+    color: #dbdbdb;
+}
+
+.suggestionText{
+    color: "#9497A1";
+    font-size: 1.5rem;
+    font-weight: 100;
+    margin: 1rem;
+}
