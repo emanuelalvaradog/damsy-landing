@@ -45,7 +45,7 @@
     flex-direction: row;
     cursor: pointer;
     align-items: center;
-    margin-top: 3rem;
+    padding-top: 3rem;
 }
 
 .item h1{
@@ -62,4 +62,9 @@
 
 .itemNotSelected{
     color: "#8C9099";
+}
+
+.secondPannel{
+    width: 70vw;
+    height: 100vh;
 }
