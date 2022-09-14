@@ -1,0 +1,65 @@
+.page{
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    
+    display: flex;
+    flex-direction: row;
+}
+
+.title{
+    color: "#8C9099";
+    font-weight: 300;
+    font-size: 2rem;
+    user-select: none;
+}
+
+
+.smallhr{
+    width: 2vw;
+    margin: 3vh 0vw;
+    color: #dbdbdb;
+    margin-bottom: -1.5rem;
+}
+
+.menu{
+    width: 15vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+    align-items: baseline;
+    padding-left: 2rem;
+}
+
+.menu svg{
+    width: 3rem;
+    height: 3rem;
+}
+
+.item{
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.item h1{
+    color: "#8C9099";
+    font-weight: 300;
+    font-size: 2.5rem;
+    user-select: none;
+    padding-left: 1rem;
+}
+
+.itemSelected{
+    color: #32936F;
+}
+
+.itemNotSelected{
+    color: "#8C9099";
+}

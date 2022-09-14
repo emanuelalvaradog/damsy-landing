@@ -10,12 +10,12 @@ export function LoginPage({registerInstead}) {
 
     const validated = () => {
         if(emailInputValue === ""){
-            setError("No olvides ingresar un correo!")
+            setError("Recuerda ingresar un correo!")
             return false;
         }
 
         if(passwordInputValue === ""){
-            setError("No olvides ingresar una contraseña!")
+            setError("Recuerda ingresar una contraseña!")
             return false;
         }
 

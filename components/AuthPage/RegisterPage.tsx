@@ -18,17 +18,17 @@ export function RegisterPage({loginInstead}) {
     const validated = () => {
 
         if(nameInputValue === ""){
-            setError("No olvides ingresar tu nombre!")
+            setError("Recuerda ingresar tu nombre!")
             return false;
         }
 
         if(emailInputValue === ""){
-            setError("No olvides ingresar un correo!")
+            setError("Recuerda ingresar un correo!")
             return false;
         }
 
         if(passwordInputValue === ""){
-            setError("No olvides ingresar una contraseña!")
+            setError("Recuerda ingresar una contraseña!")
             return false;
         }
 
