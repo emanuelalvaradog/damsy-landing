@@ -10,6 +10,44 @@ export function RegisterPage({loginInstead}) {
     const [passwordInputValue, setPasswordInputValue] = React.useState("");
 
     const [termsOfServiceChecked, setTermsOfServiceChecked] = useState(false);
+
+    const [error, setError] = useState("");
+
+
+    // There is probably a smarter way to do this
+    const validated = () => {
+
+        if(nameInputValue === ""){
+            setError("No olvides ingresar tu nombre!")
+            return false;
+        }
+
+        if(emailInputValue === ""){
+            setError("No olvides ingresar un correo!")
+            return false;
+        }
+
+        if(passwordInputValue === ""){
+            setError("No olvides ingresar una contraseña!")
+            return false;
+        }
+
+        if(termsOfServiceChecked === false){
+            setError("Para crear una cuenta por favor acepta los términos y condiciones, así como la política de privacidad!")
+            return false;
+        }
+        
+        setError("");
+        return true;
+    }
+
+
+    const createAccount = () => {
+        if(validated()){
+
+        }
+    }
+
   return (
     <div className={styles.page}>
         <h1>Registrate Gratis!🥳</h1>
@@ -22,19 +60,18 @@ export function RegisterPage({loginInstead}) {
         ></input>
 
         <input
-            type="text"
+            type="email"
             placeholder="Correo"
             onChange={e => setEmailInputValue(e.target.value)}
             value={emailInputValue}
         ></input>
 
         <input
-            type="text"
+            type="password"
             placeholder="Contraseña"
             onChange={e => setPasswordInputValue(e.target.value)}
             value={passwordInputValue}
         ></input>
-
 
 
         <div className={styles.TOSDiv}>
@@ -51,7 +88,9 @@ export function RegisterPage({loginInstead}) {
 
         </div>
 
-        <button className={styles.continueBtn}>Continuar</button>
+        {error === ""? <></> : <h2 className={styles.error}>{error}</h2>}
+
+        <button onClick={() => createAccount()} className={styles.continueBtn}>Continuar</button>
         <hr className={styles.smolHr} />
         <h2 className={styles.suggestionText} >¿Ya tienes una cuenta?</h2>
         <button className={styles.greenBtn} onClick={() => loginInstead()}>Inicia Sesion</button>
