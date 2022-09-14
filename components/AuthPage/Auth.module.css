@@ -77,3 +77,23 @@
     font-weight: 100;
     margin: 1rem;
 }
+
+.TOSDiv{
+    display: flex;
+    flex-direction: row;
+    width: 20vw;
+    align-items: baseline;
+    justify-content: center;
+    margin: 1vh;
+}
+
+.TOSDiv h3{
+    font-size: 1rem;
+    margin-left: 1rem;
+    color: #919191;
+}
+
+.spanlink{
+    text-decoration: underline;
+    cursor: pointer;
+}

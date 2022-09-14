@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Auth.module.css";
 import { LoginPage } from "./LoginPage";
 import { RegisterPage } from "./RegisterPage";
+import { useRouter } from 'next/router';
 
 enum AuthPageName {
     LOGIN,
@@ -12,8 +13,17 @@ enum AuthPageName {
 // TODO: implement secure routes 
 
 export function AuthPage() {
-
+    const { asPath } = useRouter()
     const [currentAuthPage, setCurrentAuthPage] = useState(AuthPageName.REGISTER);
+
+    useEffect(() => {
+        // check if url is /auth?login or /auth?register
+        if(asPath.includes("login")){
+            setCurrentAuthPage(AuthPageName.LOGIN)
+        }else{
+            setCurrentAuthPage(AuthPageName.REGISTER)
+        }
+    }, [])
 
     const loginInstead = () => {
         setCurrentAuthPage(AuthPageName.LOGIN)

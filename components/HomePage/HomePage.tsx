@@ -20,7 +20,7 @@ export function HomePage({ img }) {
             alt="app preview"
           />
         </div>
-        <Link href="auth">
+        <Link href="auth?register">
           <button className={styles.homeButton}>Empieza ya!</button>
         </Link>
 
