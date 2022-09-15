@@ -68,3 +68,79 @@
 .buttonNotSelected{
   opacity: 0.8;
 }
+
+/* --------------------------------------------------  */
+
+.createPage{
+  margin-left: -15vw;
+}
+
+.createPage h2{
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 5vh;
+  margin-bottom: 1.5rem;
+}
+
+.createPage textarea{
+  width: 100%;
+  padding: 1.5rem;
+  border: 1px solid #E7E7E7;
+  font-size: 1.5rem;
+  min-height: 15rem;
+}
+
+.buttonContainer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.createButton{
+  color: white;
+  background-color: #32936F;
+  font-size: 1.7rem;
+  border: none;
+  padding: 1rem 5rem;
+  border-radius: 2px;
+  align-self: center;
+  cursor: pointer;
+  margin-top: 5vh;
+}
+
+.result{
+  display: flex;
+  flex-direction: column;
+  background-color: #99db8c2e;
+  padding: 1.5rem;
+  margin-top: 3vh;
+  align-items: center;
+}
+
+.resultformula{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.resultformula:hover{
+  scale: 1.1;
+}
+
+.result h3{
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.resultformula svg{
+  cursor: pointer;
+}
+
+.resultformula h3{
+  font-weight: bold;
+  color: #32936F;
+  cursor: pointer;
+}
