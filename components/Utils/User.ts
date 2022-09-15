@@ -2,7 +2,7 @@ export type unix_stamp = number;
 
 export interface User {
     name: string;
-    email: number;
+    email: string;
     uid: string;
     isAdmin: boolean;
     created: unix_stamp;

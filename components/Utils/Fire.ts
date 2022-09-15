@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 
 // Do firebase anlytics make the webpage singificantly slower?
 import { getAnalytics } from "firebase/analytics";
-
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
 
@@ -34,8 +34,13 @@ export default class Fire{
         return self.app;
     }
 
+    public static getDB(){
+        return self.db;
+    }
+
     public static initialize(){
         self.app = initializeApp(firebaseConfig);
         self.analytics = getAnalytics(self.app);
+        self.db = getFirestore(self.app);
     }
 }
