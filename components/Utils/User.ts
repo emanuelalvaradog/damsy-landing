@@ -1,8 +1,11 @@
+export type unix_stamp = number;
+
 export interface User {
     name: string;
-    email: number;
+    email: string;
     uid: string;
     isAdmin: boolean;
+    created: unix_stamp;
 }
 
 export interface Prompt{
@@ -10,6 +13,6 @@ export interface Prompt{
     answer: string;
     type: "Formula" | "Explain";
     uid: string;
-    unixtime: number;
+    date: unix_stamp;
 }
 
