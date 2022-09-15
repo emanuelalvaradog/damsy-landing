@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateFormulaPage } from "./CreateFormulaPage";
+import { CreateFormulaPage } from "./CreateFormulaPage/CreateFormulaPage";
 
 import styles from "./ExcelAIPage.module.css";
 
