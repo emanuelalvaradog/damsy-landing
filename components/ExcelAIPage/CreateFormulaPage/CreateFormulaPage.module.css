@@ -1,6 +1,6 @@
 .page{
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: white;
   
   display: flex;
@@ -62,7 +62,7 @@
 }
 
 .buttonSelected{
-  border: 1px solid #32936F;
+  border: 1px solid #32936F !important;
 }
 
 .buttonNotSelected{
@@ -73,6 +73,7 @@
 
 .createPage{
   margin-left: -15vw;
+  width: 50%;
 }
 
 .createPage h2{
@@ -143,4 +144,61 @@
   font-weight: bold;
   color: #32936F;
   cursor: pointer;
+}
+
+/* ------------------------------------------------ */
+
+.understandinput{
+  width: 100%;
+  padding: 1.5rem;
+  border: 1px solid #E7E7E7;
+  font-size: 1.5rem;
+}
+
+.lvlSelector{
+  display: flex;
+  flex-direction: row;
+}
+
+.lvlSelector button{
+  padding: 1.5rem;
+  width: 33%;
+  border: 1px solid #E7E7E7;
+  font-size: 1.5rem;
+  background-color: white;
+  cursor: pointer;
+  color: rgb(72, 72, 72);
+}
+
+.lvlSelector button:hover{
+  border: 1px solid #bbbbbb;
+}
+
+.lvlNotSelected{
+  border: 1px solid #E7E7E7 !important;
+}
+
+.lvlSelected{
+  background-color: #32936F !important;
+  color: white !important;
+}
+
+.explainHeader{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5vh;
+}
+
+.explainHeader h3{
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.explanation{
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 1.5rem;
+  margin-left: 2.5rem;
+  margin-bottom: 5vh;
 }
