@@ -2,6 +2,7 @@ import React from "react";
 import { CreateFormulaPage } from "./CreateFormulaPage/CreateFormulaPage";
 
 import styles from "./ExcelAIPage.module.css";
+import { HistoryPage } from "./HistoryPage/HistoryPage";
 
 enum Screens {
     CREATE_FORMULA,
@@ -11,7 +12,7 @@ enum Screens {
 
 export function ExcelAIPage() {
 
-    const [currentScreen, setCurrentScreen] = React.useState(Screens.CREATE_FORMULA);
+    const [currentScreen, setCurrentScreen] = React.useState(Screens.HISTORY);
 
   return (
     <div className={styles.page}>
@@ -48,6 +49,7 @@ export function ExcelAIPage() {
         <div className={styles.secondPannel}>
 
             {currentScreen === Screens.CREATE_FORMULA? <CreateFormulaPage/> : <></>}
+            {currentScreen === Screens.HISTORY? <HistoryPage/> : <></>}
             
         </div>
 
