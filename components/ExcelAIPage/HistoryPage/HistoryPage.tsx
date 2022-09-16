@@ -25,35 +25,55 @@ export function HistoryPage() {
         }
 
         setCreatedHistory((oldHistory) => { return oldHistory.concat(h1)});
-        console.log("Ussed effectg!")
     }, [])
 
 
     function showNoHistoryFound(){
-        return <div></div>
+        return <div className={styles.historyNotFound}>
+            
+            <h1>Aquí va a aparecer tu historial cuando tengas uno! 😀</h1>
+
+        </div>
     }
 
     function showCreatedHistory(){
 
         if(createdHistory.length === 0){
-            return <div>No history found</div>
+            return showNoHistoryFound()
         }else{
             let objsToRender = []
             
             createdHistory.forEach(element => {
-                objsToRender.push(<div key={Math.random()}>
+                objsToRender.push(<div className={styles.historyItem} key={Math.random()}>
                         <h1>{element.query}</h1>
                         <h2>{element.result}</h2>
                 </div>)
             });
 
-            return objsToRender
+            return <div className={styles.historyList}>
+                {objsToRender}
+            </div>
         }
 
     }
 
     function showExplainedHistory(){
-        return <div></div>
+        if(explainedHistory.length === 0){
+            return showNoHistoryFound()
+        }else{
+            let objsToRender = []
+            
+            explainedHistory.forEach(element => {
+                objsToRender.push(<div className={styles.historyItem} key={Math.random()}>
+                        <h1>{element.query}</h1>
+                        <h2>{element.result}</h2>
+                </div>)
+            });
+
+            return <div className={styles.historyList}>
+                {objsToRender}
+            </div>
+        }
     }
 
     return <div className={styles.page}>
