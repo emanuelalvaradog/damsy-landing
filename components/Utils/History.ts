@@ -1,6 +1,6 @@
 import { unix_stamp } from "./Utils";
 
-export interface History{
+export interface HistoryInterface{
     type: "Formula" | "Explain";
     query: string;
     result: string;

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./HistoryPage.module.css";
+import {HistoryInterface} from "../../Utils/History";
 
 enum Screens {
     CREATE_FORMULA,
@@ -10,8 +11,22 @@ export function HistoryPage() {
 
     const [currentScreen, setCurrentScreen] = React.useState(Screens.CREATE_FORMULA);
 
-    const [createdHistory, setCreatedHistory] = React.useState([]);
-    const [explainedHistory, setExplainedHistory] = React.useState([]);
+    const [createdHistory, setCreatedHistory] = React.useState([] as HistoryInterface[]);
+    const [explainedHistory, setExplainedHistory] = React.useState([] as HistoryInterface[]);
+
+    useEffect(() => {
+        // setCreatedHistory()
+        let h1:HistoryInterface = {
+            date: 0,
+            type: "Formula",
+            query: "What are potatoes for",
+            result: "Lorem ipsum dolor sasfklasdjfkldjflkd",
+            uid: "e0293i093it0f932i0932if039if"
+        }
+
+        setCreatedHistory((oldHistory) => { return oldHistory.concat(h1)});
+        console.log("Ussed effectg!")
+    }, [])
 
 
     function showNoHistoryFound(){
@@ -23,11 +38,16 @@ export function HistoryPage() {
         if(createdHistory.length === 0){
             return <div>No history found</div>
         }else{
-
-            let historyArr = []
-
+            let objsToRender = []
             
+            createdHistory.forEach(element => {
+                objsToRender.push(<div key={Math.random()}>
+                        <h1>{element.query}</h1>
+                        <h2>{element.result}</h2>
+                </div>)
+            });
 
+            return objsToRender
         }
 
     }
