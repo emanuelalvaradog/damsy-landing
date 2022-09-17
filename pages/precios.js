@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/Pricing.module.css";
 import Router from "next/router";
-import { checkout } from "../stripe/checkout";
+import { stripeCheckout } from "../stripe/stripeCheckout";
 
 export default function precios() {
   // async function paymentHandler(e) {
