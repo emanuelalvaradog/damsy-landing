@@ -1,7 +1,13 @@
-import { AuthPage } from "../../components"
+import { AuthPage } from "../../components";
+import { HomeHeader } from "../../components";
 
 function Auth({ Component, pageProps }) {
-  return <AuthPage></AuthPage>
+  return (
+    <>
+      <HomeHeader />
+      <AuthPage />
+    </>
+  );
 }
 
-export default Auth
+export default Auth;

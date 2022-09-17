@@ -5,7 +5,7 @@ import { RegisterPage } from "./RegisterPage";
 import { useRouter } from 'next/router';
 
 
-enum AuthPageName {
+const enum AuthPageName {
     LOGIN,
     REGISTER
 }

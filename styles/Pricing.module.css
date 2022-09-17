@@ -1,0 +1,86 @@
+.pricing {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pricing h1 {
+  font-size: 5rem;
+}
+
+.pricing p {
+  font-size: 1.8rem;
+  margin-top: 0.6rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 6rem;
+  margin-top: 8rem;
+}
+
+.card {
+  width: 25rem;
+  height: 26rem;
+  background-color: red;
+  border-radius: 0.4rem;
+}
+
+.cardHeader {
+  height: 7.2rem;
+  background-color: green;
+  padding: 1rem;
+  border-radius: 0.4rem;
+}
+
+.cardHeader h2 {
+  font-size: 2rem;
+}
+
+.cardHeader p {
+  font-size: 1.4rem;
+}
+
+.cardBenefits {
+  padding: 1rem;
+  height: 18rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardBenefits h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.cardBenefits ul {
+  padding: 0;
+}
+
+.cardBenefits ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.cardBenefits li {
+  margin: 0;
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.cardBenefits button {
+  width: 30%;
+  border-radius: 0.6rem;
+  background-color: blue;
+  margin-top: 1.6rem;
+  border: none;
+  height: 2.4rem;
+  cursor: pointer;
+}
