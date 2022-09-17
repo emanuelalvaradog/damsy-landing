@@ -1,24 +1,23 @@
 import React from "react";
 import styles from "../styles/Pricing.module.css";
 import Router from "next/router";
-import { axios } from "axios";
+import { checkout } from "../stripe/checkout";
 
 export default function precios() {
-  async function paymentHandler(e) {
-    const subscription = e.target.name;
-    if (subscription[1] === "free") {
-      Router.push("/auth?login");
-      return;
-    }
+  // async function paymentHandler(e) {
+  //   const productId = e.target.name;
+  //   if (productId === "free") {
+  //     Router.push("/auth?login");
+  //     return;
+  //   }
 
-    fetch("http://localhost:3000/api/checkout-sessions", {
-      method: "POST",
-      body: JSON.stringify({
-        planId: subscription[0],
-        price: subscription[1],
-      }),
-    });
-  }
+  //   fetch("http://localhost:3000/api/checkout-sessions", {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       productId,
+  //     }),
+  //   });
+  // }
 
   return (
     <div className={styles.pricing}>
@@ -36,7 +35,12 @@ export default function precios() {
               <li>Limitado a 5 fórmulas por mes</li>
               <li>Acceso limitado a historial de fórmulas</li>
             </ul>
-            <button name="free" onClick={paymentHandler}>
+            <button
+              name="free"
+              onClick={() => {
+                Router.push("/auth?login");
+              }}
+            >
               Comprar
             </button>
           </div>
@@ -54,8 +58,17 @@ export default function precios() {
               <li>Acceso completo al historial de fórmulas</li>
             </ul>
             <button
-              name={["prod_MRUEhIBpz0QHAR", "price_1LibGCD1ZyZsk1mP8Cpry7o4"]}
-              onClick={paymentHandler}
+              name={"prod_MRohC3ham7aid7"}
+              onClick={() =>
+                checkout({
+                  lineItems: [
+                    {
+                      price: "price_1LivSQD1ZyZsk1mP95uvYcCj",
+                      quantity: 1,
+                    },
+                  ],
+                })
+              }
             >
               Comprar
             </button>
@@ -74,8 +87,8 @@ export default function precios() {
               <li>Acceso completo al historial de fórmulas</li>
             </ul>
             <button
-              name="price_1LibGcD1ZyZsk1mPbkdchSyC"
-              onClick={paymentHandler}
+            // name="price_1LibGcD1ZyZsk1mPbkdchSyC"
+            // onClick={paymentHandler}
             >
               Comprar
             </button>

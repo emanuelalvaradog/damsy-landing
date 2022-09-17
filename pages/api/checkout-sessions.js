@@ -3,17 +3,20 @@ const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 export default async function paymentHandler(req, res) {
   if (req.method !== "POST") res.status(405).end("Method not allowed");
 
-  const product = req.body;
-
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
-      // payment_method_types: "card",
       line_items: [
         {
           price_data: {
-            price: product.planId,
             currency: "mxn",
+            product_data: {
+              name: "Plan Mensual",
+            },
+            unit_amount: 9900,
+            recurring: {
+              interval: "month",
+            },
           },
           quantity: 1,
         },
