@@ -24,30 +24,32 @@
 }
 
 .card {
-  width: 25rem;
-  height: 26rem;
-  background-color: red;
+  width: 28rem;
+  height: 34rem;
+  background-color: #dbdbdb;
   border-radius: 0.4rem;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cardHeader {
-  height: 7.2rem;
-  background-color: green;
-  padding: 1rem;
-  border-radius: 0.4rem;
+  height: 8.4rem;
+  background-color: rgb(68, 143, 68);
+  padding: 1.2rem 0 1.2rem 1.6rem;
+  border-radius: 0.4rem 0.4rem 0 0;
+  color: rgb(230, 230, 230);
 }
 
 .cardHeader h2 {
-  font-size: 2rem;
+  font-size: 2.4rem;
 }
 
 .cardHeader p {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
 }
 
 .cardBenefits {
-  padding: 1rem;
-  height: 18rem;
+  padding: 1.6rem;
+  height: 25.6rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,7 +57,7 @@
 }
 
 .cardBenefits h3 {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   margin-bottom: 1rem;
 }
 
@@ -71,16 +73,18 @@
 
 .cardBenefits li {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin-bottom: 0.6rem;
 }
 
 .cardBenefits button {
-  width: 30%;
+  width: 50%;
   border-radius: 0.6rem;
-  background-color: blue;
+  background-color: rgb(32, 155, 27);
+  color: white;
   margin-top: 1.6rem;
+  font-size: 1.6rem;
   border: none;
-  height: 2.4rem;
+  height: 3rem;
   cursor: pointer;
 }

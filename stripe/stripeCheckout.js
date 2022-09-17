@@ -2,10 +2,11 @@ import { loadStripe } from "@stripe/stripe-js";
 
 export async function stripeCheckout({ lineItems }) {
   let stripePromise = null;
+  const STRIPE_API_KEY = process.env.NEXT_PUBLIC_STRIPE_KEY;
 
   const getStripe = () => {
     if (!stripePromise) {
-      stripePromise = loadStripe(process.env.STRIPE_API_KEY);
+      stripePromise = loadStripe(STRIPE_API_KEY);
     }
     return stripePromise;
   };
@@ -13,9 +14,9 @@ export async function stripeCheckout({ lineItems }) {
   const stripe = await getStripe();
 
   await stripe.redirectToCheckout({
-    mode: "payment",
+    mode: "subscription",
     lineItems,
-    succesUrl: `${window.location.origin}?session_id={CHECKOUT_SESSION_ID}`,
+    successUrl: `${window.location.origin}?session_id={CHECKOUT_SESSION_ID}`,
     cancelUrl: window.location.origin,
   });
 }

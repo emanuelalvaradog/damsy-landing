@@ -3,24 +3,21 @@ const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 export default async function paymentHandler(req, res) {
   if (req.method !== "POST") res.status(405).end("Method not allowed");
 
+  const priceReq = JSON.parse(req.body).price;
+
+  // const prodPrice = await stripe.prices.retrieve(priceReq);
+  // console.log(prodPrice);
+
   try {
     const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
+      billing_address_collection: "auto",
       line_items: [
         {
-          price_data: {
-            currency: "mxn",
-            product_data: {
-              name: "Plan Mensual",
-            },
-            unit_amount: 9900,
-            recurring: {
-              interval: "month",
-            },
-          },
+          price: "price_1LivSQD1ZyZsk1mP95uvYcCj",
           quantity: 1,
         },
       ],
+      mode: "subscription",
       success_url: "http://localhost:3000/excelai",
       cancel_url: "http://localhost:3000/",
     });
