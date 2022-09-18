@@ -3,8 +3,12 @@ import styles from "../styles/Pricing.module.css";
 import Router from "next/router";
 import { HomeHeader } from "../components";
 import { stripeCheckout } from "../stripe/stripeCheckout";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function precios() {
+export default function Precios() {
+  const dispatch = useDispatch();
+  const { uid } = useSelector((store) => store.user);
+
   return (
     <>
       <HomeHeader displayLogin />
@@ -46,7 +50,6 @@ export default function precios() {
                 <li>Acceso completo al historial de fórmulas</li>
               </ul>
               <button
-                name={"prod_MRohC3ham7aid7"}
                 onClick={() =>
                   stripeCheckout({
                     lineItems: [
