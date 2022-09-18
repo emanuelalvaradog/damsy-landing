@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MyAccountPage.module.css";
 import Link from 'next/link'
+import toast, { Toaster } from 'react-hot-toast';
+
+import {
+    getAuth,
+    updatePassword,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
+  } from 'firebase/auth';
+  
 
 enum PlanName {
     BASIC,
@@ -11,18 +20,69 @@ export function MyAccountPage() {
 
     const [currentPlan, setCurrentPlan] = useState(PlanName.BASIC);
 
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
+    const [error, setError] = useState("");
+
+    const auth = getAuth()
 
     function validate(){
-        
+
+        if(newPassword !== confirmNewPassword){
+            // TODO: Write this in a friendlier way 
+            setError("Error: Los campos de nueva contraseña y confirmar nueva contraseña no son iguales.");
+            return false;
+        }
+
+        setError("");
+        return true;
     }
 
-    function changePassword(){
+    const tryToChangePass = new Promise((resolve, reject) => {
+         // TODO: get THIS FROM REDUX STORE 
+         const EMAIL = "email@example.com";
 
+         const credential = EmailAuthProvider.credential(
+             EMAIL,
+             currentPassword
+          );
+
+         reauthenticateWithCredential(auth.currentUser, credential).then(() => {
+              updatePassword(auth.currentUser, newPassword).then(() => {
+                 setError("");
+                 setCurrentPassword("")
+                 setNewPassword("")
+                 setConfirmNewPassword("")
+                 resolve("Contraseña cambiada exitosamente!")
+              }).catch(err => {
+                     setError("Contraseá debil. Intenta agregar más símbolos o números.");
+                     reject("Contraseá debil. Intenta agregar más símbolos o números.")
+              });
+          }).catch(err => {
+             setError("La contraseña actual ingresada es incorrecta. ¿La escribiste bien?")
+             reject("La contraseña actual ingresada es incorrecta. ¿La escribiste bien?")
+          });
+      });
+
+    function changePassword(){
+        if(validate()){
+            toast.promise(tryToChangePass, {
+                loading: 'Cambiando contraseña...',
+                success: 'Contraseña cambiada exitosamente!',
+                error: 'Ocurrio un error al intentar cambiar tu contraseña',
+            }, {
+                style: {
+                    fontSize: "1.25rem"
+                }
+            });
+        }
     }
 
     function showIfFreePlan() {
         return <div className={styles.plans}>
+            <Toaster />
             <div className={styles.plan + ' ' + styles.currentPlan}>
                 <div className={styles.planvert}>
                     <h3 className={styles.planName}>Gratis</h3>
@@ -89,6 +149,8 @@ export function MyAccountPage() {
 
     return <div className={styles.Page}>
 
+
+
         <div className={styles.userIcon}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#A7AAB1" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -116,18 +178,18 @@ export function MyAccountPage() {
             <div className={styles.changePasswordContanier}>
                 <h3 className={styles.helperText}>Contraseña actual</h3>
 
-                <input type="password" autoComplete="new-password" placeholder="Escribe tu contraseña actual..." />
+                <input value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} type="password" autoComplete="new-password" placeholder="Escribe tu contraseña actual..." />
 
                 <h3 className={styles.helperText}>Nueva contraseña</h3>
 
-                <input type="password" autoComplete="new-password" placeholder="Escribe tu nueva contraseña..." />
+                <input value={newPassword} onChange={e => setNewPassword(e.target.value)} type="password" autoComplete="new-password" placeholder="Escribe tu nueva contraseña..." />
 
                 <h3 className={styles.helperText}>Confirma nueva contraseña</h3>
 
-                <input type="password" autoComplete="new-password" placeholder="Confirma tu nueva contraseña..." />
+                <input value={confirmNewPassword} onChange={e => setConfirmNewPassword(e.target.value)} type="password" autoComplete="new-password" placeholder="Confirma tu nueva contraseña..." />
 
-
-                <button className={styles.confirm}>Cambiar contraseña</button>
+                {error === "" ? <></> : <h2 className={styles.error}>{error}</h2>}
+                <button onClick={() => changePassword()} className={styles.confirm}>Cambiar contraseña</button>
             </div>
         </div>
     </div>
