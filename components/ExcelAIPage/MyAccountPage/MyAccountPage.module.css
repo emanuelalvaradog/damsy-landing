@@ -88,6 +88,8 @@
     padding: 1.5rem;
     border-radius: 10px;
     margin-top: 3vh;
+    margin-right: 3vw;
+    cursor: pointer;
 }
 
 .plan svg{
@@ -102,7 +104,7 @@
 }
 
 .planDesc{
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: 500;
 }
 
@@ -115,4 +117,45 @@
     content: '';
     height: 80%;
     width: 5px;
+}
+
+
+.currentPlan{
+    border: 1px solid #32936f;
+}
+
+.currentPlan h3{
+    color: #32936f;
+}
+
+
+.changePasswordContanier{
+    display: flex;
+    flex-direction: column;
+}
+
+.helperText{
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    font-weight: 500;
+}
+
+.changePasswordContanier input {
+    width: 50%;
+    padding: 1.5rem;
+    border: 1px solid #E7E7E7;
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+
+.confirm{
+    background-color: #32936f;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 1.5rem;
+    padding: 1.5rem;
+    width: fit-content;
+    margin-top: 3vh;
 }

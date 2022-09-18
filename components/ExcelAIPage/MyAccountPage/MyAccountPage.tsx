@@ -1,7 +1,92 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MyAccountPage.module.css";
+import Link from 'next/link'
+
+enum PlanName {
+    BASIC,
+    PREMIUM
+}
 
 export function MyAccountPage() {
+
+    const [currentPlan, setCurrentPlan] = useState(PlanName.BASIC);
+
+
+
+    function validate(){
+        
+    }
+
+    function changePassword(){
+
+    }
+
+    function showIfFreePlan() {
+        return <div className={styles.plans}>
+            <div className={styles.plan + ' ' + styles.currentPlan}>
+                <div className={styles.planvert}>
+                    <h3 className={styles.planName}>Gratis</h3>
+                    <h3 className={styles.planDesc}>(Limitado)</h3>
+                </div>
+                <div className={styles.planvert}>
+                    <div className={styles.badPadding}></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                    </svg>
+                </div>
+            </div>
+
+            <Link href="precios">
+                <div className={styles.plan} >
+                    <div className={styles.planvert}>
+                        <h3 className={styles.planName}>Premium</h3>
+                        <h3 className={styles.planDesc}>Da click aquí para cambiar a un plan ilimitado!</h3>
+                    </div>
+                    <div className={styles.planvert}>
+                        <div className={styles.badPadding}></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                        </svg>
+                    </div>
+                </div>
+            </Link>
+        </div>
+    }
+
+
+    function showIfPaidPlan() {
+        return <div className={styles.plans}>
+
+            <Link href="cancelar">
+                <div className={styles.plan}>
+                    <div className={styles.planvert}>
+                        <h3 className={styles.planName}>Gratis</h3>
+                        <h3 className={styles.planDesc}>Da clic aquí para cambiar al plan gratis.</h3>
+                    </div>
+                    <div className={styles.planvert}>
+                        <div className={styles.badPadding}></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                        </svg>
+                    </div>
+                </div>
+            </Link>
+
+            <div className={styles.plan + ' ' + styles.currentPlan} >
+                <div className={styles.planvert}>
+                    <h3 className={styles.planName}>Premium</h3>
+                    <h3 className={styles.planDesc}>Felicidades tienes el plan premium!</h3>
+                </div>
+                <div className={styles.planvert}>
+                    <div className={styles.badPadding}></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    }
+
     return <div className={styles.Page}>
 
         <div className={styles.userIcon}>
@@ -22,21 +107,28 @@ export function MyAccountPage() {
 
             <h2>Plan actual</h2>
 
-            <div className={styles.plans}>
-                <div className={styles.plan}>
-                    <div className={styles.planvert}>
-                        <h3 className={styles.planName}>Gratis</h3>
-                        <h3 className={styles.planDesc}>(Limitado)</h3>
-                    </div>
-                    <div className={styles.planvert}>
-                    <div className={styles.badPadding}></div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-                    </svg>
-                    </div>
-                </div>
-            </div>
+            {currentPlan === PlanName.BASIC ? showIfFreePlan() : <></>}
+            {currentPlan === PlanName.PREMIUM ? showIfPaidPlan() : <></>}
 
+            <h2>Cambiar contraseña</h2>
+
+
+            <div className={styles.changePasswordContanier}>
+                <h3 className={styles.helperText}>Contraseña actual</h3>
+
+                <input type="password" autoComplete="new-password" placeholder="Escribe tu contraseña actual..." />
+
+                <h3 className={styles.helperText}>Nueva contraseña</h3>
+
+                <input type="password" autoComplete="new-password" placeholder="Escribe tu nueva contraseña..." />
+
+                <h3 className={styles.helperText}>Confirma nueva contraseña</h3>
+
+                <input type="password" autoComplete="new-password" placeholder="Confirma tu nueva contraseña..." />
+
+
+                <button className={styles.confirm}>Cambiar contraseña</button>
+            </div>
         </div>
     </div>
 }
