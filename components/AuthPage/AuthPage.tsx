@@ -3,7 +3,7 @@ import styles from "./Auth.module.css";
 import { LoginPage } from "./LoginPage";
 import { RegisterPage } from "./RegisterPage";
 import { useRouter } from "next/router";
-import Fire from "../Utils/Fire";
+import { useSelector } from "react-redux";
 
 const enum AuthPageName {
   LOGIN,
@@ -14,18 +14,27 @@ const enum AuthPageName {
 // TODO: implement secure routes
 
 export function AuthPage() {
-  Fire.initialize();
-  const { asPath } = useRouter();
+  const router = useRouter();
   const [currentAuthPage, setCurrentAuthPage] = useState(AuthPageName.REGISTER);
+  const { uid } = useSelector((store) => store.user);
 
   useEffect(() => {
     // check if url is /auth?login or /auth?register
-    if (asPath.includes("login")) {
+    if (router.asPath.includes("login")) {
       setCurrentAuthPage(AuthPageName.LOGIN);
     } else {
       setCurrentAuthPage(AuthPageName.REGISTER);
     }
   }, []);
+
+  useEffect(() => {
+    if (uid) {
+      console.log(uid);
+      console.log("logged-in");
+      router.push("/excelai");
+    }
+  });
+  // check if user is already logged in and redirect to app if true
 
   const loginInstead = () => {
     setCurrentAuthPage(AuthPageName.LOGIN);
