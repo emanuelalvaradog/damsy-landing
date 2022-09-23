@@ -18,9 +18,18 @@ export function LoginPage({ registerInstead }) {
             setError("Recuerda ingresar un correo!");
             return false;
         }
+
+        if (passwordInputValue === "") {
+            setError("Recuerda ingresar una constraseña!");
+            return false;
+        }
+
+        setError("");
+        return true;
     }
 
     const loginAccount = () => {
+
         if (validated()) {
             const auth = getAuth();
 
