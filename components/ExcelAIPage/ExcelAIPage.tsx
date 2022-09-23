@@ -6,10 +6,10 @@ import { HistoryPage } from "./HistoryPage/HistoryPage";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { MyAccountPage } from "./MyAccountPage/MyAccountPage";
-import Fire from "../Utils/Fire";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserState } from "../../store/slices/userSlice";
+import { setUserState, clearUserState } from "../../store/slices/userSlice";
 
 const enum Screens {
   CREATE_FORMULA,
@@ -23,15 +23,34 @@ export function ExcelAIPage() {
   const dispatch = useDispatch();
   const router = useRouter();
   const auth = getAuth();
+  const [user, loading] = useAuthState(auth);
   const { uid } = useSelector((store) => store.user);
 
   useEffect(() => {
-    if (!uid) {
+    if (loading) {
+      console.log("Loading...");
+    }else{
+
+    if (user === null) {
       router.push("/");
+    }else{
+      const userData: User = {
+        name: user.displayName,
+        email: user.email,
+        uid: user.uid,
+        isAdmin: false,
+        plan: "Free",
+        lastBought: 0,
+        created: user.metadata.createdAt,
+    };
+    dispatch(setUserState(userData));
     }
+  }
+
   });
 
   function handleSignOut() {
+    console.log("SIGN OUT")
     dispatch(clearUserState());
     signOut(auth);
     router.push("/");
@@ -141,7 +160,7 @@ export function ExcelAIPage() {
                 Mi cuenta
               </h1>
             </div>
-            <div className={styles.item} onClick={handleSignOut}>
+            <div className={styles.item} onClick={() => handleSignOut()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
