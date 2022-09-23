@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./Auth.module.css";
 import Link from "next/link";
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import Fire from "../Utils/Fire";
 import { User } from "../Utils/User";
@@ -56,18 +56,23 @@ export function RegisterPage({ loginInstead }) {
           const db = Fire.getDB();
           const userRef = doc(db, "users", user.uid);
 
-          const userStruct: User = {
-            name: nameInputValue,
-            email: emailInputValue,
-            isAdmin: false,
-            created: Date.now(),
-            uid: generateUUID(),
-            plan: "Free",
-            lastBought: 0,
-          };
-          setDoc(userRef, userStruct).then(() => {
-            Router.push("/excelai");
-          });
+          setPersistence(auth, browserSessionPersistence).then(() => {
+
+            const userStruct: User = {
+              name: nameInputValue,
+              email: emailInputValue,
+              isAdmin: false,
+              created: Date.now(),
+              uid: generateUUID(),
+              plan: "Free",
+              lastBought: 0,
+            };
+            setDoc(userRef, userStruct).then(() => {
+              Router.push("/excelai");
+            });
+
+            return signInWithEmailAndPassword(auth, emailInputValue, passwordInputValue)
+          })
         })
         .catch((error) => {
           const errorCode = error.code;

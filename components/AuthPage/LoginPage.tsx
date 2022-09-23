@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Auth.module.css";
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence  } from "firebase/auth";
 import Router from 'next/router';
 
 export function LoginPage({ registerInstead }) {
@@ -36,6 +36,11 @@ export function LoginPage({ registerInstead }) {
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
+
+                    setPersistence(auth, browserSessionPersistence).then(() => {
+                        return signInWithEmailAndPassword(auth, emailInputValue, passwordInputValue)
+                    })
+
                     Router.push('/excelai');
                 })
                 .catch((err) => {

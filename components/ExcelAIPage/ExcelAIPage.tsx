@@ -6,6 +6,7 @@ import { HistoryPage } from "./HistoryPage/HistoryPage";
 import { getAuth, signOut } from "firebase/auth";
 import Router from "next/router";
 import { MyAccountPage } from "./MyAccountPage/MyAccountPage";
+import Fire from "../Utils/Fire";
 
 const enum Screens {
   CREATE_FORMULA,
@@ -15,7 +16,15 @@ const enum Screens {
 
 export function ExcelAIPage() {
   const [currentScreen, setCurrentScreen] = React.useState(Screens.HISTORY);
-  const auth = getAuth();
+
+  let auth;
+
+  try{
+    auth = getAuth();
+  }catch(err){
+    Fire.initialize()
+    auth = getAuth();
+  }
 
   function handleSignOut() {
     signOut(auth);
