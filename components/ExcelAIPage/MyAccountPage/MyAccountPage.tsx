@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./MyAccountPage.module.css";
 import Link from 'next/link'
 import toast, { Toaster } from 'react-hot-toast';
+import { useSelector } from "react-redux";
+
 
 import {
     getAuth,
@@ -28,6 +30,11 @@ export function MyAccountPage() {
 
     const auth = getAuth()
 
+    // const { uid } = useSelector((store) => store.user);
+    useEffect(() => {
+        console.log()
+    }, [])
+
     function validate(){
 
         if(newPassword !== confirmNewPassword){
@@ -41,6 +48,7 @@ export function MyAccountPage() {
     }
 
     const tryToChangePass = new Promise((resolve, reject) => {
+        console.log("Executing promise")
          // TODO: get THIS FROM REDUX STORE 
          const EMAIL = "email@example.com";
 
@@ -67,6 +75,7 @@ export function MyAccountPage() {
       });
 
     function changePassword(){
+        console.log("Trying to change password")
         if(validate()){
             toast.promise(tryToChangePass, {
                 loading: 'Cambiando contraseña...',

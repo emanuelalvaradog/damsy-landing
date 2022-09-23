@@ -6,6 +6,7 @@ import { HistoryPage } from "./HistoryPage/HistoryPage";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { MyAccountPage } from "./MyAccountPage/MyAccountPage";
+import Fire from "../Utils/Fire";
 
 import { useDispatch, useSelector } from "react-redux";
 import { clearUserState } from "../../store/slices/userSlice";
@@ -18,6 +19,7 @@ const enum Screens {
 
 export function ExcelAIPage() {
   const [currentScreen, setCurrentScreen] = React.useState(Screens.HISTORY);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const auth = getAuth();

@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import styles from "./Auth.module.css";
-import { User } from "../Utils/User";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import Router from "next/router";
+
+import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence  } from "firebase/auth";
+import Router from 'next/router';
+
+export function LoginPage({ registerInstead }) {
+
+    const [emailInputValue, setEmailInputValue] = React.useState("");
+    const [passwordInputValue, setPasswordInputValue] = React.useState("");
+
+    const [error, setError] = useState("");
+
 
 import { useDispatch } from "react-redux";
 import { setUserState, clearUserState } from "../../store/slices/userSlice";
@@ -19,9 +27,37 @@ export function LoginPage({ registerInstead }) {
       return false;
     }
 
+    const loginAccount = () => {
+        if (validated()) {
+            const auth = getAuth();
+            
+            console.log("AUTH: ", auth)
+
+            signInWithEmailAndPassword(auth, emailInputValue, passwordInputValue)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+
+                    setPersistence(auth, browserSessionPersistence).then(() => {
+                        return signInWithEmailAndPassword(auth, emailInputValue, passwordInputValue)
+                    })
+
+                    Router.push('/excelai');
+                })
+                .catch((err) => {
+                    const errorCode = err.code;
+
+                    switch(errorCode){
+                        case "auth/wrong-password": { setError("Usuario no encontrado, ¿lo escribiste bien?") } break;
+                        case "auth/user-not-found ": { setError("Contraseña incorrecta, ¿la escribiste bien?") } break;
+                    }
+                });
+        }
+
     if (passwordInputValue === "") {
       setError("Recuerda ingresar una contraseña!");
       return false;
+
     }
 
     setError("");
