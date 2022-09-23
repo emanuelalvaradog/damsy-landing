@@ -29,8 +29,8 @@ export function MyAccountPage() {
     const [error, setError] = useState("");
 
     const auth = getAuth()
-    
-    const { uid } = useSelector((store) => store.user);
+
+    // const { uid } = useSelector((store) => store.user);
     useEffect(() => {
         console.log()
     }, [])
