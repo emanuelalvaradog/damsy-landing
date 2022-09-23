@@ -3,8 +3,9 @@ import styles from "./Auth.module.css";
 import Link from "next/link";
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
+
 import { doc, setDoc } from "firebase/firestore";
-import Fire from "../Utils/Fire";
+import { FireDB } from "../Utils/Fire";
 import { User } from "../Utils/User";
 import { generateUUID } from "../Utils/Utils";
 import Router from "next/router";
@@ -53,8 +54,7 @@ export function RegisterPage({ loginInstead }) {
       createUserWithEmailAndPassword(auth, emailInputValue, passwordInputValue)
         .then((userCredential) => {
           const user = userCredential.user;
-          const db = Fire.getDB();
-          const userRef = doc(db, "users", user.uid);
+          const userRef = doc(FireDB, "users", user.uid);
 
           setPersistence(auth, browserSessionPersistence).then(() => {
 
@@ -73,6 +73,7 @@ export function RegisterPage({ loginInstead }) {
 
             return signInWithEmailAndPassword(auth, emailInputValue, passwordInputValue)
           })
+
         })
         .catch((error) => {
           const errorCode = error.code;
