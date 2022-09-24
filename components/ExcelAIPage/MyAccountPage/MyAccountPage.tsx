@@ -47,7 +47,8 @@ export function MyAccountPage() {
         return true;
     }
 
-    const tryToChangePass = new Promise((resolve, reject) => {
+    function tryToChangePass(){
+        return new Promise((resolve, reject) => {
         console.log("Executing promise")
          // TODO: get THIS FROM REDUX STORE 
          const EMAIL = "email@example.com";
@@ -73,11 +74,12 @@ export function MyAccountPage() {
              reject("La contraseña actual ingresada es incorrecta. ¿La escribiste bien?")
           });
       });
+    }
 
     function changePassword(){
         console.log("Trying to change password")
         if(validate()){
-            toast.promise(tryToChangePass, {
+            toast.promise(tryToChangePass(), {
                 loading: 'Cambiando contraseña...',
                 success: 'Contraseña cambiada exitosamente!',
                 error: 'Ocurrio un error al intentar cambiar tu contraseña',
@@ -104,7 +106,7 @@ export function MyAccountPage() {
                     </svg>
                 </div>
             </div>
-
+1
             <Link href="precios">
                 <div className={styles.plan} >
                     <div className={styles.planvert}>
