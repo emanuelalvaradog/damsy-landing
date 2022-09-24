@@ -49,7 +49,7 @@ export function MyAccountPage() {
 
     function tryToChangePass(){
         return new Promise((resolve, reject) => {
-            
+
          const EMAIL = auth.currentUser.email;
 
          const credential = EmailAuthProvider.credential(
@@ -105,7 +105,7 @@ export function MyAccountPage() {
                     </svg>
                 </div>
             </div>
-1
+
             <Link href="precios">
                 <div className={styles.plan} >
                     <div className={styles.planvert}>

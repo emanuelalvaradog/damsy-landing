@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  width: 50%;
+  width: fit-content;
   justify-content: space-evenly;
   margin-left: -15vw;
   margin-top: 5vh;
@@ -38,6 +38,7 @@
 .selectionButtons h2 {
   font-size: 2rem;
   font-weight: 500;
+  padding: 0rem 2rem;
 }
 
 .buttonSelect {
@@ -56,7 +57,7 @@
 }
 
 .buttonSelect h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 500;
   margin-right: 1.5rem;
 }

@@ -10,6 +10,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setUserState, clearUserState } from "../../store/slices/userSlice";
+import { User } from "../Utils/User"
 
 const enum Screens {
   CREATE_FORMULA,
@@ -34,6 +35,7 @@ export function ExcelAIPage() {
     if (user === null) {
       router.push("/");
     }else{
+      console.log(user)
       const userData: User = {
         name: user.displayName,
         email: user.email,
