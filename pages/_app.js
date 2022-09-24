@@ -1,14 +1,14 @@
-import { useEffect } from 'react'
-import '../styles/globals.css'
-import Fire from "../components/Utils/Fire"
+// import { useEffect } from "react";
+import "../styles/globals.css";
+import { store } from "../store/store";
+import { Provider } from "react-redux";
 
 function MyApp({ Component, pageProps }) {
-  useEffect(() => {
-    let _ = new Fire()
-    Fire.initialize()
-  }, [])
-
-  return <Component {...pageProps} />
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />;
+    </Provider>
+  );
 }
 
-export default MyApp
+export default MyApp;

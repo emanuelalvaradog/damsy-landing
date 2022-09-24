@@ -1,0 +1,174 @@
+.Page {
+    width: 100%;
+    min-height: 100vh;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+
+.userIcon {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10vh;
+    margin-left: -15vw;
+}
+
+.userIcon svg {
+    width: 8vw;
+    height: 8vw;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 25%;
+    width: 100%;
+}
+
+.container h2 {
+    font-size: 1.5rem;
+    margin-top: 5vh;
+}
+
+.inputWithIcon {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    cursor: not-allowed;
+    height: 3rem;
+    align-items: center;
+    margin-top: 5vh;
+}
+
+.inputWithIcon svg{
+    width: 2.5rem;
+    height: 2.5rem;
+    /* padding: 1.5rem; */
+    height: 5rem;
+    border: 1px solid #E7E7E7;
+    border-left: none;
+    border-right: none;
+}
+
+.inputWithIcon input {
+    width: 50%;
+    padding: 1.5rem;
+    border: 1px solid #E7E7E7;
+    font-size: 1.5rem;
+    border-right: none;
+    cursor: not-allowed;
+    user-select: none;
+}
+
+.inputWithIcon input:focus{
+    outline: none;
+}
+
+.extrapad{
+    content: '';
+    height: 100%;
+    width: 2.5rem;
+    height: 5rem;
+    border: 1px solid #E7E7E7;
+    border-left: none;
+}
+
+.plans{
+    display: flex;
+    flex-direction: row;
+}
+
+.plan{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #E7E7E7;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 3vh;
+    margin-right: 3vw;
+    cursor: pointer;
+}
+
+.plan svg{
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-left: 1rem;
+    cursor: help;
+}
+
+.planName{
+    font-size: 2.5rem;
+}
+
+.planDesc{
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.planvert{
+    display:flex;
+    flex-direction: column;
+}
+
+.badPadding{
+    content: '';
+    height: 80%;
+    width: 5px;
+}
+
+
+.currentPlan{
+    border: 1px solid #32936f;
+}
+
+.currentPlan h3{
+    color: #32936f;
+}
+
+
+.changePasswordContanier{
+    display: flex;
+    flex-direction: column;
+}
+
+.helperText{
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    font-weight: 500;
+}
+
+.changePasswordContanier input {
+    width: 50%;
+    padding: 1.5rem;
+    border: 1px solid #E7E7E7;
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+
+.confirm{
+    background-color: #32936f;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 1.5rem;
+    padding: 1.5rem;
+    width: fit-content;
+    margin-top: 3vh;
+    cursor: pointer;
+    margin-bottom: 10vh;
+}
+
+
+.error{
+    color: #FF6921;
+    font-size: 1.5rem;
+    margin: 1rem 0rem;
+}
