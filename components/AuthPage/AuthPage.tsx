@@ -4,37 +4,42 @@ import { LoginPage } from "./LoginPage";
 import { RegisterPage } from "./RegisterPage";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const enum AuthPageName {
   LOGIN,
   REGISTER,
+  NONE,
 }
 
-// TODO: if someone goes to /auth and is already logged in, redirect to /excelai
-// TODO: implement secure routes
-
 export function AuthPage() {
+
+  const auth = getAuth();
   const router = useRouter();
+
   const [currentAuthPage, setCurrentAuthPage] = useState(AuthPageName.REGISTER);
-  const { uid } = useSelector((store) => store.user);
+  const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
-    // check if url is /auth?login or /auth?register
-    if (router.asPath.includes("login")) {
-      setCurrentAuthPage(AuthPageName.LOGIN);
-    } else {
-      setCurrentAuthPage(AuthPageName.REGISTER);
+    if(loading){
+      console.log("Loading...")
+      setCurrentAuthPage(AuthPageName.NONE);
+    }else{
+      if(user === null){
+        // check if url is /auth?login or /auth?register
+        if (router.asPath.includes("login")) {
+          setCurrentAuthPage(AuthPageName.LOGIN);
+        } else {
+          setCurrentAuthPage(AuthPageName.REGISTER);
+        }
+      }else{
+        console.log("logged-in");
+        router.push("/excelai");
+      }
     }
-  }, []);
 
-  useEffect(() => {
-    if (uid) {
-      console.log(uid);
-      console.log("logged-in");
-      router.push("/excelai");
-    }
-  });
-  // check if user is already logged in and redirect to app if true
+  }, [loading])
 
   const loginInstead = () => {
     setCurrentAuthPage(AuthPageName.LOGIN);
@@ -46,11 +51,8 @@ export function AuthPage() {
 
   return (
     <div className={styles.page}>
-      {currentAuthPage == AuthPageName.LOGIN ? (
-        <LoginPage registerInstead={registerInstead}></LoginPage>
-      ) : (
-        <RegisterPage loginInstead={loginInstead}></RegisterPage>
-      )}
+      {currentAuthPage == AuthPageName.LOGIN ?  <LoginPage registerInstead={registerInstead}></LoginPage> : <></>}
+      {currentAuthPage == AuthPageName.REGISTER ?  <RegisterPage loginInstead={loginInstead}></RegisterPage> : <></>}
     </div>
   );
 }
