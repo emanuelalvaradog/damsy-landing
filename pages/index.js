@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/index.module.css";
 import appPreview from "../public/app-preview-1.png";
 import { HomePage, AskPage, HomeHeader } from "../components/";
 
