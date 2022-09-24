@@ -49,9 +49,8 @@ export function MyAccountPage() {
 
     function tryToChangePass(){
         return new Promise((resolve, reject) => {
-        console.log("Executing promise")
-         // TODO: get THIS FROM REDUX STORE 
-         const EMAIL = "email@example.com";
+            
+         const EMAIL = auth.currentUser.email;
 
          const credential = EmailAuthProvider.credential(
              EMAIL,
