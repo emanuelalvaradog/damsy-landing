@@ -1,5 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./CreateFormulaPage.module.css";
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+  apiKey: process.env.NEXT_PUBLIC_OPENAI,
+});
+
+const openai = new OpenAIApi(configuration);
 
 export function CreatePage() {
   const [formulaInputValue, setFormulaInputValue] = useState("");
@@ -31,6 +38,23 @@ export function CreatePage() {
       </div>
     );
   }
+
+  async function req(){
+    const response = await openai.createCompletion({
+      model: "text-davinci-002",
+      prompt: "What's 1+1",
+      temperature: 0.7,
+      max_tokens: 256,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    });
+    console.log(response)
+  }
+
+  useEffect(() => {
+    // req()
+  })
 
   return (
     <div className={styles.createPage}>
