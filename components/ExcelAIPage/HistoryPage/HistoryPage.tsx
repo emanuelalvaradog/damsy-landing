@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./HistoryPage.module.css";
 import { HistoryInterface } from "../../Utils/History";
+import { doc, getDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { FireDB } from "../../Utils/Fire";
 
 const enum Screens {
   CREATE_FORMULA,
@@ -20,18 +23,46 @@ export function HistoryPage() {
   );
 
   useEffect(() => {
-    // setCreatedHistory()
-    let h1: HistoryInterface = {
-      date: 0,
-      type: "Formula",
-      query: "What are potatoes for",
-      result: "Lorem ipsum dolor sasfklasdjfkldjflkd",
-      uid: "e0293i093it0f932i0932if039if",
-    };
 
-    setCreatedHistory((oldHistory) => {
-      return oldHistory.concat(h1);
-    });
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const historyRef = doc(FireDB, "history", user.uid);
+
+    const historySnap = getDoc(historyRef).then(doc => {
+      if(doc.exists()){
+
+        doc.data().past.forEach(hist => {
+            if(hist.type == "Formula"){
+              setCreatedHistory((oldHistory) => {
+                  return oldHistory.concat(hist);
+              });
+            }else{
+              setExplainedHistory((oldHistory) => {
+                return oldHistory.concat(hist);
+              });
+            }
+        });
+        console.log(doc.data()) 
+      }
+    })
+
+    // setCreatedHistory()
+    // let h1: HistoryInterface = {
+    //   date: 0,
+    //   type: "Formula",
+    //   query: "What are potatoes for",
+    //   result: "Lorem ipsum dolor sasfklasdjfkldjflkd",
+    //   uid: "e0293i093it0f932i0932if039if",
+    // };
+
+    // setCreatedHistory((oldHistory) => {
+    //   return oldHistory.concat(h1);
+    // });
+
+
+
+
   }, []);
 
   function showNoHistoryFound() {
