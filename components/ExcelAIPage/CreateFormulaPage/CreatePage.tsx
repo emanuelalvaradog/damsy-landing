@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import styles from "./CreateFormulaPage.module.css";
 const { Configuration, OpenAIApi } = require("openai");
 import toast, { Toaster } from 'react-hot-toast';
+import { HistoryInterface } from "../../Utils/History"
+import { getAuth } from "firebase/auth";
+import { FireDB } from "../../Utils/Fire";
+import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 
 const configuration = new Configuration({
   apiKey: process.env.NEXT_PUBLIC_OPENAI,
@@ -65,6 +69,11 @@ export function CreatePage() {
     let msg = formulaInputValue;
     // let prompt = "Generate an excel formula and don't reply with something that isn't a formula using the format above for the following: \n\n{input: " + msg + "}";
 
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const historyRef = doc(FireDB, "history", user.uid);
+
+
     let prompt = "Generate an excel formula and don´t reply with something that isn't a formula using the format above for the following: {input: \"" + msg +"\"}"
 
     return new Promise(async (resolve, reject) => {
@@ -77,6 +86,21 @@ export function CreatePage() {
         frequency_penalty: 0,
         presence_penalty: 0,
       });
+
+
+      let history: HistoryInterface = {
+        type: "Formula",
+        query: msg,
+        result: response.data.choices[0].text,
+        date: Date.now(),
+        uid: user.uid
+      }
+
+      let docc = {
+        past: arrayUnion(history)
+      }
+
+      updateDoc(historyRef, docc)
 
       console.log(response)
       setFormulaResult(response.data.choices[0].text)
