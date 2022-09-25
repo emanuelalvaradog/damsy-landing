@@ -43,7 +43,6 @@ export function HistoryPage() {
               });
             }
         });
-        console.log(doc.data()) 
       }
     })
 

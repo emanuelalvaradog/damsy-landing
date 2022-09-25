@@ -37,7 +37,6 @@ export function LoginPage({ registerInstead }) {
                 .then((userCredential) => {
                     // Signed in
                     const user = userCredential.user;
-                    // console.log(user);
 
                     const userData: User = {
                         name: user.displayName,

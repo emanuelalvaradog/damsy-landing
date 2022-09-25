@@ -59,9 +59,7 @@ export function CreatePage() {
       presence_penalty: 0,
     });
 
-    console.log(response)
     setFormulaResult(response.data.choices[0].text)
-    console.log(response.data.choices[0].text)
   }
 
 
@@ -102,9 +100,7 @@ export function CreatePage() {
 
       updateDoc(historyRef, docc)
 
-      console.log(response)
       setFormulaResult(response.data.choices[0].text)
-      console.log(response.data.choices[0].text)
       resolve("listo!")
     })
   }

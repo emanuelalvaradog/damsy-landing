@@ -107,10 +107,7 @@ export function UnderstandPage() {
       
       updateDoc(historyRef, docc)
 
-      console.log(response)
       setResult(response.data.choices[0].text)
-      console.log(response.data.choices[0].text)
-      resolve("listo!")
     })
   }
 
