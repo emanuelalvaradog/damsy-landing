@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import styles from "./CreateFormulaPage.module.css";
+const { Configuration, OpenAIApi } = require("openai");
+import toast, { Toaster } from 'react-hot-toast';
+
+const configuration = new Configuration({
+  apiKey: process.env.NEXT_PUBLIC_OPENAI,
+});
+
+const openai = new OpenAIApi(configuration);
 
 const enum LevelSelector {
   BASIC,
@@ -12,9 +20,14 @@ export function UnderstandPage() {
 
   const [result, setResult] = useState("");
 
+  const [inputValue, setInputValue] = useState("");
+
+
   function showExplanation() {
     return (
       <div>
+      <Toaster />
+
         <div className={styles.explainHeader}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -33,30 +46,76 @@ export function UnderstandPage() {
           <h3>Explicación generada con inteligencia artificial</h3>
         </div>
 
-        <h3 className={styles.explanation}>
-          Lorem ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam
-          ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum
-          dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor
-          bam ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam
-          ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum
-          dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor
-          bam ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam
-          ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum
-          dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor bam ipsum dolor
-          baskjnafsklfjaslkfj
-        </h3>
+        <h3 className={styles.explanation}>{result}</h3>
       </div>
     );
   }
 
+  async function doPrompt(){
+    let msg = inputValue;
+    let modifier;
+
+    switch(level){
+      case  LevelSelector.BASIC: {
+        modifier = "as simple as possible, in spanish."
+      };
+
+      case  LevelSelector.NORMAL: {
+        modifier = "in spanish."
+      };
+
+      case  LevelSelector.VERY_DETAILED: {
+        modifier = "as detailed as possible, in spanish."
+      };
+
+    }
+
+    // let prompt = "Explain the following excel formula: \n\n" + msg + + modifier;
+
+    let prompt = "Explain the following excel formula \""+msg+"\""+modifier+"\n"
+
+    return new Promise(async (resolve, reject) => {
+      const response = await openai.createCompletion({
+        model: "text-davinci-002",
+        prompt,
+        temperature: 0.7,
+        max_tokens: 256,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+      });
+
+      console.log(response)
+      setResult(response.data.choices[0].text)
+      console.log(response.data.choices[0].text)
+      resolve("listo!")
+    })
+  }
+
+  function understandFormula(){
+    toast.promise(doPrompt(), {
+      loading: 'Generando explicación...',
+      success: 'Explicación generada exitosamente!',
+      error: 'Ocurrio un error al generar la explicación!',
+    }, {
+      style: {
+          fontSize: "1.25rem"
+      }
+   });
+  }
+
   return (
     <div className={styles.createPage}>
+      <Toaster />
+
       <h2>Ingresa la fórmula que quieres entender.</h2>
 
       <input
         className={styles.understandinput}
         type="text"
         placeholder='=SUMIF(C:C, "&gt;5", A:B)'
+        value={inputValue}
+        onChange={e => {setInputValue(e.target.value)}}
       />
 
       <h2>Nivel de explicación</h2>
@@ -95,7 +154,7 @@ export function UnderstandPage() {
       </div>
 
       <div className={styles.buttonContainer}>
-        <button className={styles.createButton}>Explicar</button>
+        <button onClick={() => understandFormula()} className={styles.createButton}>Explicar</button>
       </div>
 
       {result !== "" ? showExplanation() : <></>}

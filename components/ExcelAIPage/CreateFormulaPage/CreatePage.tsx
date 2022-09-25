@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CreateFormulaPage.module.css";
 const { Configuration, OpenAIApi } = require("openai");
+import toast, { Toaster } from 'react-hot-toast';
 
 const configuration = new Configuration({
   apiKey: process.env.NEXT_PUBLIC_OPENAI,
@@ -33,31 +34,73 @@ export function CreatePage() {
             />
           </svg>
 
-          <h3> ${`=SUMIF(C:C, ">5", A:B)`} </h3>
+          <h3> ${formulaResult} </h3>
         </div>
       </div>
     );
   }
 
   async function req(){
+    // let msg = "Sum first ten items of row A and row B and place them in row C.";
+    let msg = formulaInputValue;
+    let prompt = "Generate an excel formula and don´t reply with something that isn't a formula using the format above for: \n\n{input: " + msg + "}";
+
     const response = await openai.createCompletion({
       model: "text-davinci-002",
-      prompt: "What's 1+1",
+      prompt,
       temperature: 0.7,
       max_tokens: 256,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
     });
+
     console.log(response)
+    setFormulaResult(response.data.choices[0].text)
+    console.log(response.data.choices[0].text)
   }
 
-  useEffect(() => {
-    // req()
-  })
 
+  async function doPrompt(){
+    let msg = formulaInputValue;
+    // let prompt = "Generate an excel formula and don't reply with something that isn't a formula using the format above for the following: \n\n{input: " + msg + "}";
+
+    let prompt = "Generate an excel formula and don´t reply with something that isn't a formula using the format above for the following: {input: \"" + msg +"\"}"
+
+    return new Promise(async (resolve, reject) => {
+      const response = await openai.createCompletion({
+        model: "text-davinci-002",
+        prompt,
+        temperature: 0,
+        max_tokens: 256,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+      });
+
+      console.log(response)
+      setFormulaResult(response.data.choices[0].text)
+      console.log(response.data.choices[0].text)
+      resolve("listo!")
+    })
+  }
+
+  function createFormula(){
+    toast.promise(doPrompt(), {
+      loading: 'Generando formula...',
+      success: 'Formula generada exitosamente!',
+      error: 'Ocurrio un error al generar la formula!',
+  }, {
+      style: {
+          fontSize: "1.25rem"
+      }
+  });
+  }
+    
   return (
     <div className={styles.createPage}>
+      <Toaster />
+
       <h2>
         Ingresa la fórmula que quieres crear, intenta ser lo más especifico
         posible, mencionando las columnas y celdas.
@@ -72,7 +115,7 @@ export function CreatePage() {
       ></textarea>
 
       <div className={styles.buttonContainer}>
-        <button className={styles.createButton}>Crear</button>
+        <button onClick={() => createFormula()}  className={styles.createButton}>Crear</button>
       </div>
       {formulaResult !== "" ? showFormulaResult() : <></>}
     </div>
