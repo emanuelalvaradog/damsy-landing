@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import styles from "./CreateFormulaPage.module.css";
 const { Configuration, OpenAIApi } = require("openai");
 import toast, { Toaster } from 'react-hot-toast';
+import { HistoryInterface } from "../../Utils/History"
+import { getAuth } from "firebase/auth";
+import { FireDB } from "../../Utils/Fire";
+import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 
 const configuration = new Configuration({
   apiKey: process.env.NEXT_PUBLIC_OPENAI,
@@ -74,6 +78,10 @@ export function UnderstandPage() {
 
     let prompt = "Explain the following excel formula \""+msg+"\""+modifier+"\n"
 
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const historyRef = doc(FireDB, "history", user.uid);
+        
     return new Promise(async (resolve, reject) => {
       const response = await openai.createCompletion({
         model: "text-davinci-002",
@@ -84,6 +92,20 @@ export function UnderstandPage() {
         frequency_penalty: 0,
         presence_penalty: 0,
       });
+
+      let history: HistoryInterface = {
+        type: "Explain",
+        query: msg,
+        result: response.data.choices[0].text,
+        date: Date.now(),
+        uid: user.uid
+      }
+
+      let docc = {
+        past: arrayUnion(history)
+      }
+      
+      updateDoc(historyRef, docc)
 
       console.log(response)
       setResult(response.data.choices[0].text)
