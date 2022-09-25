@@ -45,38 +45,51 @@ export function ExcelAIPage() {
   }, []);
 
   useEffect(() => {
-    if (router.asPath.includes("success")) {
-      const customer = stripeUsers.find((el) => el.email === userData.email);
-      const userRef = doc(FireDB, "users", userData.uid);
-
-      const userStruct = {
-        ...userData,
-        stripeId: customer,
-      };
-
-      setDoc(userRef, userStruct).then();
-    }
-  }, [router.asPath]);
-
-  useEffect(() => {
     if (loading) {
       console.log("Loading...");
     } else {
       if (user === null) {
         router.push("/");
       } else {
-        const userDataStruct: User = {
-          name: user.displayName,
-          email: user.email,
-          uid: user.uid,
-          stripeId: user.stripeId,
-          isAdmin: false,
-          plan: "Free",
-          lastBought: 0,
-          created: user.metadata.createdAt,
-        };
+        if (router.asPath.includes("success")) {
+          const customer = stripeUsers.find((el) => el.email === user.email);
+          console.log(user);
 
-        dispatch(setUserState(userDataStruct));
+          dispatch(
+            setUserState({
+              name: user.displayName,
+              email: user.email,
+              uid: user.uid,
+              stripeId: customer.id,
+              isAdmin: false,
+              plan: "Free",
+              lastBought: 0,
+              created: user.metadata.createdAt,
+            })
+          );
+
+          const userRef = doc(FireDB, "users", userData.uid);
+
+          const userStruct = {
+            ...userData,
+            stripeId: customer.id,
+          };
+
+          setDoc(userRef, userStruct).then(() => console.log("Done"));
+        } else {
+          const userDataStruct: User = {
+            name: user.displayName,
+            email: user.email,
+            uid: user.uid,
+            stripeId: userData.stripeId,
+            isAdmin: false,
+            plan: "Free",
+            lastBought: 0,
+            created: user.metadata.createdAt,
+          };
+
+          dispatch(setUserState(userDataStruct));
+        }
       }
     }
   });

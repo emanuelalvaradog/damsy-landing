@@ -73,6 +73,7 @@ export function RegisterPage({ loginInstead }) {
               plan: "Free",
               lastBought: 0,
             };
+
             setDoc(userRef, userStruct).then(() => {
               Router.push("/excelai");
             });

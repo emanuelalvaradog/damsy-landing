@@ -6,7 +6,7 @@ export interface User {
   uid: string;
   stripeId: string;
   isAdmin: boolean;
-  plan: "Free" | "Monthly" | "Year";
+  plan: string;
   lastBought: unix_stamp;
   created: unix_stamp;
 }

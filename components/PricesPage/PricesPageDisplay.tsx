@@ -6,6 +6,7 @@ import { HomeHeader } from "../HomeHeader/HomeHeader";
 export function PricesPageDisplay() {
   return (
     <>
+      <HomeHeader displayLogin />
       <div className={styles.pricing}>
         <h1>Incrementa tu productividad</h1>
         <p>Crea fórmulas como un experto con Damsy ExcelAI</p>

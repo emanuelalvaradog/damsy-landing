@@ -19,7 +19,7 @@ export async function stripeCheckout({ lineItems, userEmail, userId }) {
     lineItems,
     clientReferenceId: userId,
     customerEmail: userEmail,
-    successUrl: "http://localhost:3000/excelai?success",
+    successUrl: "http://localhost:3000/excelai?success=true",
     cancelUrl: "http://localhost:3000/excelai",
   });
 }

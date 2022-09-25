@@ -7,9 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { FireDB } from "../Utils/Fire";
 import { doc, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export function PricesPage() {
+  const auth = getAuth();
   const { uid, email } = useSelector((store: RootState) => store.user);
+  const [user, loading] = useAuthState(auth);
+
+  useEffect(() => {
+    if (!loading && user === null) Router.push("/");
+  }, []);
 
   return (
     <>

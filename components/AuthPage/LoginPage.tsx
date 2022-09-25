@@ -8,15 +8,20 @@ import {
   browserSessionPersistence,
 } from "firebase/auth";
 import Router from "next/router";
-
-import { useDispatch } from "react-redux";
-import { setUserState, clearUserState } from "../../store/slices/userSlice";
+import { FireDB } from "../Utils/Fire";
+import { User } from "../Utils/User";
+import { doc, getDoc } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { setUserState, setUserStripeId } from "../../store/slices/userSlice";
 
 export function LoginPage({ registerInstead }) {
   const [emailInputValue, setEmailInputValue] = React.useState("");
   const [passwordInputValue, setPasswordInputValue] = React.useState("");
   const [error, setError] = useState("");
+  const [userData, setUserData] = useState<User>();
   const dispatch = useDispatch();
+  const { uid } = useSelector((store: RootState) => store.user);
 
   const validated = () => {
     if (emailInputValue === "") {
@@ -33,7 +38,7 @@ export function LoginPage({ registerInstead }) {
     return true;
   };
 
-  const loginAccount = () => {
+  const loginAccount = async () => {
     if (validated()) {
       const auth = getAuth();
 
@@ -41,19 +46,22 @@ export function LoginPage({ registerInstead }) {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+
           // console.log(user);
 
+          // read stripe id from firestore
           const userData: User = {
             name: user.displayName,
             email: user.email,
             uid: user.uid,
-            stripeId: user.stripeId,
+            stripeId: "",
             isAdmin: false,
             plan: "Free",
             lastBought: 0,
             created: user.metadata.createdAt,
           };
 
+          setUserData(userData);
           dispatch(setUserState(userData));
 
           setPersistence(auth, browserSessionPersistence).then(() => {
@@ -63,7 +71,6 @@ export function LoginPage({ registerInstead }) {
               passwordInputValue
             );
           });
-          Router.push("/excelai");
         })
         .catch((err) => {
           const errorCode = err.code;
@@ -81,6 +88,12 @@ export function LoginPage({ registerInstead }) {
               break;
           }
         });
+
+      const docRef = doc(FireDB, `users/${uid}/stripeId`);
+      const docSnap = await getDoc(docRef);
+      const userStripeId = docSnap.data().soString();
+      dispatch(setUserStripeId({ stripeId: userStripeId }));
+      Router.push("/excelai");
     }
   };
 

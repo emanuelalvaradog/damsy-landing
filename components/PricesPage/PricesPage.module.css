@@ -18,12 +18,12 @@
 }
 
 .cards {
-  width: 80%;
+  /* width: 80%; */
   display: grid;
   justify-content: center;
   align-items: center;
   grid-auto-rows: auto;
-  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  grid-template-columns: auto auto auto;
   gap: 6rem;
   margin-top: 8rem;
 }

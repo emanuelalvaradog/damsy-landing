@@ -46,4 +46,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUserState, clearUserState } = userSlice.actions;
+export const { setUserState, clearUserState, setUserStripeId } =
+  userSlice.actions;
