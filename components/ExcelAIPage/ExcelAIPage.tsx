@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CreateFormulaPage } from "./CreateFormulaPage/CreateFormulaPage";
 
 import styles from "./ExcelAIPage.module.css";
 import { HistoryPage } from "./HistoryPage/HistoryPage";
 import { getAuth, signOut } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { FireDB } from "../Utils/Fire";
 import { useRouter } from "next/router";
 import { MyAccountPage } from "./MyAccountPage/MyAccountPage";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import { RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserState, clearUserState } from "../../store/slices/userSlice";
-import { User } from "../Utils/User"
+import { User } from "../Utils/User";
 
 const enum Screens {
   CREATE_FORMULA,
@@ -19,39 +21,68 @@ const enum Screens {
 }
 
 export function ExcelAIPage() {
-  const [currentScreen, setCurrentScreen] = React.useState(Screens.CREATE_FORMULA);
+  const [currentScreen, setCurrentScreen] = React.useState(
+    Screens.CREATE_FORMULA
+  );
 
   const dispatch = useDispatch();
   const router = useRouter();
   const auth = getAuth();
   const [user, loading] = useAuthState(auth);
-  const { uid } = useSelector((store) => store.user);
+  const userData = useSelector((store: RootState) => store.user);
+  const [stripeUsers, setStripeUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      await fetch("http://localhost:3000/api/list-customers", {
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .then((res) => setStripeUsers(res.data));
+    };
+
+    fetchCustomers();
+  }, []);
+
+  useEffect(() => {
+    if (router.asPath.includes("success")) {
+      const customer = stripeUsers.find((el) => el.email === userData.email);
+      const userRef = doc(FireDB, "users", userData.uid);
+
+      const userStruct = {
+        ...userData,
+        stripeId: customer,
+      };
+
+      setDoc(userRef, userStruct).then();
+    }
+  }, [router.asPath]);
 
   useEffect(() => {
     if (loading) {
       console.log("Loading...");
-    }else{
+    } else {
+      if (user === null) {
+        router.push("/");
+      } else {
+        const userDataStruct: User = {
+          name: user.displayName,
+          email: user.email,
+          uid: user.uid,
+          stripeId: user.stripeId,
+          isAdmin: false,
+          plan: "Free",
+          lastBought: 0,
+          created: user.metadata.createdAt,
+        };
 
-    if (user === null) {
-      router.push("/");
-    }else{
-      const userData: User = {
-        name: user.displayName,
-        email: user.email,
-        uid: user.uid,
-        isAdmin: false,
-        plan: "Free",
-        lastBought: 0,
-        created: user.metadata.createdAt,
-    };
-    dispatch(setUserState(userData));
+        dispatch(setUserState(userDataStruct));
+      }
     }
-  }
-
   });
 
   function handleSignOut() {
-    console.log("SIGN OUT")
+    console.log("SIGN OUT");
     dispatch(clearUserState());
     signOut(auth);
     router.push("/");
@@ -59,7 +90,7 @@ export function ExcelAIPage() {
 
   return (
     <>
-      {uid && (
+      {userData.uid && (
         <div className={styles.page}>
           <div className={styles.menu}>
             <h1 className={styles.title}>Menú</h1>

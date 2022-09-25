@@ -129,7 +129,7 @@ export function MyAccountPage() {
           </div>
         </div>
 
-        <Link href="precios">
+        <Link href="/excelai/precios">
           <div className={styles.plan}>
             <div className={styles.planvert}>
               <h3 className={styles.planName}>Premium</h3>
@@ -163,7 +163,7 @@ export function MyAccountPage() {
   function showIfPaidPlan() {
     return (
       <div className={styles.plans}>
-        <Link href="cancelar">
+        <Link href="">
           <div className={styles.plan}>
             <div className={styles.planvert}>
               <h3 className={styles.planName}>Gratis</h3>

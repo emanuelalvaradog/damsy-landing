@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import styles from "./Auth.module.css";
 import Link from "next/link";
 
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
 
 import { doc, setDoc } from "firebase/firestore";
 import { FireDB } from "../Utils/Fire";
@@ -57,11 +63,11 @@ export function RegisterPage({ loginInstead }) {
           const userRef = doc(FireDB, "users", user.uid);
 
           setPersistence(auth, browserSessionPersistence).then(() => {
-
             const userStruct: User = {
               name: nameInputValue,
               email: emailInputValue,
               isAdmin: false,
+              stripeId: "",
               created: Date.now(),
               uid: generateUUID(),
               plan: "Free",
@@ -71,9 +77,12 @@ export function RegisterPage({ loginInstead }) {
               Router.push("/excelai");
             });
 
-            return signInWithEmailAndPassword(auth, emailInputValue, passwordInputValue)
-          })
-
+            return signInWithEmailAndPassword(
+              auth,
+              emailInputValue,
+              passwordInputValue
+            );
+          });
         })
         .catch((error) => {
           const errorCode = error.code;

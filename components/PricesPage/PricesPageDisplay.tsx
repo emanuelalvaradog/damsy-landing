@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from "react";
 import styles from "./PricesPage.module.css";
 import Router from "next/router";
-import { RootState } from "../../store/store";
-import { stripeCheckout } from "./stripeCheckout";
-import { useDispatch, useSelector } from "react-redux";
-import { FireDB } from "../Utils/Fire";
-import { doc, setDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { HomeHeader } from "../HomeHeader/HomeHeader";
 
-export function PricesPage() {
-  const { uid, email } = useSelector((store: RootState) => store.user);
-
+export function PricesPageDisplay() {
   return (
     <>
       <div className={styles.pricing}>
+        <h1>Incrementa tu productividad</h1>
+        <p>Crea fórmulas como un experto con Damsy ExcelAI</p>
         <section className={styles.cards}>
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h2>Plan Gratuito</h2>
+              <p>$0</p>
+            </div>
+            <div className={styles.cardBenefits}>
+              <h3>Acceso limitado a Damsy ExcelAI</h3>
+              <ul>
+                <li>Limitado a 5 fórmulas por mes</li>
+                <li>Acceso limitado a historial de fórmulas</li>
+              </ul>
+              <button
+                name="free"
+                onClick={() => {
+                  Router.push("/auth?login");
+                }}
+              >
+                Comprar
+              </button>
+            </div>
+          </div>
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <h2>Plan Mensual</h2>
@@ -29,18 +45,9 @@ export function PricesPage() {
               </ul>
               <button
                 name="monthly"
-                onClick={() =>
-                  stripeCheckout({
-                    lineItems: [
-                      {
-                        price: "price_1LivSQD1ZyZsk1mP95uvYcCj",
-                        quantity: 1,
-                      },
-                    ],
-                    userId: uid,
-                    userEmail: email,
-                  })
-                }
+                onClick={() => {
+                  Router.push("/auth?login");
+                }}
               >
                 Comprar
               </button>
@@ -58,21 +65,7 @@ export function PricesPage() {
                 <li>Explicaciones ilimitadas</li>
                 <li>Acceso completo al historial de fórmulas</li>
               </ul>
-              <button
-                name="anual"
-                onClick={() =>
-                  stripeCheckout({
-                    lineItems: [
-                      {
-                        price: "price_1LiwYxD1ZyZsk1mPzA3mUrL2",
-                        quantity: 1,
-                      },
-                    ],
-                    userId: uid,
-                    userEmail: email,
-                  })
-                }
-              >
+              <button name="anual" onClick={() => Router.push("/auth?login")}>
                 Comprar
               </button>
             </div>

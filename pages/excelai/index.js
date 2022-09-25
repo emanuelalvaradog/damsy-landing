@@ -1,8 +1,7 @@
-import { ExcelAIPage } from "../../components"
+import { ExcelAIPage } from "../../components";
 
 function ExcelAI({ Component, pageProps }) {
-  return <ExcelAIPage></ExcelAIPage>
-  
+  return <ExcelAIPage></ExcelAIPage>;
 }
 
-export default ExcelAI
+export default ExcelAI;
