@@ -63,13 +63,15 @@ export function CreatePage() {
 
   async function doPrompt(){
     let msg = formulaInputValue;
-    let prompt = "Generate an excel formula and don´t reply with something that isn't a formula using the format above for: \n\n{input: " + msg + "}";
+    // let prompt = "Generate an excel formula and don't reply with something that isn't a formula using the format above for the following: \n\n{input: " + msg + "}";
+
+    let prompt = "Generate an excel formula and don´t reply with something that isn't a formula using the format above for the following: {input: \"" + msg +"\"}"
 
     return new Promise(async (resolve, reject) => {
       const response = await openai.createCompletion({
         model: "text-davinci-002",
         prompt,
-        temperature: 0.7,
+        temperature: 0,
         max_tokens: 256,
         top_p: 1,
         frequency_penalty: 0,
