@@ -40,7 +40,7 @@ export function PricesPage() {
                   stripeCheckout({
                     lineItems: [
                       {
-                        price: "price_1LivSQD1ZyZsk1mP95uvYcCj",
+                        price: "price_1LmNaWD1ZyZsk1mPPxSfTAN0",
                         quantity: 1,
                       },
                     ],
@@ -71,7 +71,7 @@ export function PricesPage() {
                   stripeCheckout({
                     lineItems: [
                       {
-                        price: "price_1LiwYxD1ZyZsk1mPzA3mUrL2",
+                        price: "price_1LmNaQD1ZyZsk1mPnhXR47iX",
                         quantity: 1,
                       },
                     ],
