@@ -8,7 +8,7 @@ import { FireDB } from "../../Utils/Fire";
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_KEY,
+  apiKey: process.env.NEXT_PUBLIC_OPENAI,
 });
 
 const openai = new OpenAIApi(configuration);
