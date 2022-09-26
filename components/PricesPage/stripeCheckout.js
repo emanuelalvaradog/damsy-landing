@@ -11,13 +11,12 @@ const getStripe = () => {
   return stripePromise;
 };
 
-export async function stripeCheckout({ lineItems, userEmail, userId }) {
+export async function stripeCheckout({ lineItems, userEmail }) {
   const stripe = await getStripe();
 
   await stripe.redirectToCheckout({
     mode: "subscription",
     lineItems,
-    clientReferenceId: userId,
     customerEmail: userEmail,
     successUrl: "https://damsy-landing.vercel.app/excelai?success=true",
     cancelUrl: "https://damsy-landing.vercel.app/excelai",
