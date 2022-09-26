@@ -51,7 +51,7 @@ export function LoginPage({ registerInstead }) {
 
   useEffect(() => {
     fetchCustomers();
-  });
+  },[]);
 
   const loginAccount = async () => {
     if (validated()) {
