@@ -38,9 +38,12 @@ export function ExcelAIPage() {
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      await fetch("http://localhost:3000/api/list-customers", {
-        method: "GET",
-      })
+      await fetch(
+        "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/api/list-customers",
+        {
+          method: "GET",
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
           setStripeUsers(res.customers.data);

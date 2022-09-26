@@ -2,7 +2,7 @@ import { loadStripe } from "@stripe/stripe-js";
 
 let stripePromise = null;
 const STRIPE_API_KEY =
-  "pk_test_51LiW94D1ZyZsk1mP3PwYv1GQnHI0gno4iMcXbVTZQ8ir2Ux9gyiE5rrb1KlYUCn6KxBDL7iiAhbC2biJWFsLFPxS00mbZiGWy9";
+  "pk_live_51LiW94D1ZyZsk1mPS2EcapZkm77mbHh0t9Q2dz4IwihAL6Ei3r0KtfOJxX0urmY5WkTHExsHVWyKIvly5IgGDjuJ000V2PdDHW";
 
 const getStripe = () => {
   if (!stripePromise) {
@@ -19,7 +19,9 @@ export async function stripeCheckout({ lineItems, userEmail, userId }) {
     lineItems,
     clientReferenceId: userId,
     customerEmail: userEmail,
-    successUrl: "http://localhost:3000/excelai?success=true",
-    cancelUrl: "http://localhost:3000/excelai",
+    successUrl:
+      "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/excelai?success=true",
+    cancelUrl:
+      "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/excelai",
   });
 }
