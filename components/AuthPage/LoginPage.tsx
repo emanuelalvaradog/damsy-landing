@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Auth.module.css";
 
 import {
@@ -8,12 +8,9 @@ import {
   browserSessionPersistence,
 } from "firebase/auth";
 import Router from "next/router";
-import { FireDB } from "../Utils/Fire";
 import { User } from "../Utils/User";
-import { doc, getDoc } from "firebase/firestore";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { setUserState, setUserStripeId } from "../../store/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { setUserState } from "../../store/slices/userSlice";
 
 const mapPlans = {
   prod_MVONfIZrzdggde: "Anual",
@@ -25,9 +22,7 @@ export function LoginPage({ registerInstead }) {
   const [passwordInputValue, setPasswordInputValue] = React.useState("");
   const [error, setError] = useState("");
   const [stripeSubs, setStripeSubs] = useState([]);
-  const [userData, setUserData] = useState<User>();
   const dispatch = useDispatch();
-  const { uid } = useSelector((store: RootState) => store.user);
 
   const validated = () => {
     if (emailInputValue === "") {
@@ -45,17 +40,18 @@ export function LoginPage({ registerInstead }) {
   };
 
   const fetchCustomers = async () => {
-    await fetch(
-      "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/api/list-customers",
-      {
-        method: "GET",
-      }
-    )
+    await fetch("https://damsy-landing.vercel.app/api/list-customers", {
+      method: "GET",
+    })
       .then((res) => res.json())
       .then((res) => {
         setStripeSubs(res.subscriptions.data);
       });
   };
+
+  useEffect(() => {
+    fetchCustomers();
+  });
 
   const loginAccount = async () => {
     if (validated()) {

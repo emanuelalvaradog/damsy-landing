@@ -19,8 +19,8 @@ const enum Screens {
 }
 
 const mapPlans = {
-  prod_MRqFyY6M5JGo1s: "Anual",
-  prod_MRp6LdZBCaoQL6: "Mensual",
+  prod_MVONfIZrzdggde: "Anual",
+  prod_MVONyTQecS9Hiw: "Mensual",
 };
 
 export function ExcelAIPage() {
@@ -38,12 +38,9 @@ export function ExcelAIPage() {
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      await fetch(
-        "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/api/list-customers",
-        {
-          method: "GET",
-        }
-      )
+      await fetch("https://damsy-landing.vercel.app/api/list-customers", {
+        method: "GET",
+      })
         .then((res) => res.json())
         .then((res) => {
           setStripeUsers(res.customers.data);

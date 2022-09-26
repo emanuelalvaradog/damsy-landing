@@ -19,9 +19,7 @@ export async function stripeCheckout({ lineItems, userEmail, userId }) {
     lineItems,
     clientReferenceId: userId,
     customerEmail: userEmail,
-    successUrl:
-      "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/excelai?success=true",
-    cancelUrl:
-      "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/excelai",
+    successUrl: "https://damsy-landing.vercel.app/excelai?success=true",
+    cancelUrl: "https://damsy-landing.vercel.app/excelai",
   });
 }
