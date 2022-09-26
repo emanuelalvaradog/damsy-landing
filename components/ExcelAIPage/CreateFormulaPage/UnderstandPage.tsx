@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styles from "./CreateFormulaPage.module.css";
 const { Configuration, OpenAIApi } = require("openai");
-import toast, { Toaster } from 'react-hot-toast';
-import { HistoryInterface } from "../../Utils/History"
+import toast, { Toaster } from "react-hot-toast";
+import { HistoryInterface } from "../../Utils/History";
 import { getAuth } from "firebase/auth";
 import { FireDB } from "../../Utils/Fire";
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 
 const configuration = new Configuration({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI,
+  apiKey: process.env.OPENAI_KEY,
 });
 
 const openai = new OpenAIApi(configuration);
@@ -26,11 +26,10 @@ export function UnderstandPage() {
 
   const [inputValue, setInputValue] = useState("");
 
-
   function showExplanation() {
     return (
       <div>
-      <Toaster />
+        <Toaster />
 
         <div className={styles.explainHeader}>
           <svg
@@ -55,33 +54,33 @@ export function UnderstandPage() {
     );
   }
 
-  async function doPrompt(){
+  async function doPrompt() {
     let msg = inputValue;
     let modifier;
 
-    switch(level){
-      case  LevelSelector.BASIC: {
-        modifier = "as simple as possible, in spanish."
-      };
+    switch (level) {
+      case LevelSelector.BASIC: {
+        modifier = "as simple as possible, in spanish.";
+      }
 
-      case  LevelSelector.NORMAL: {
-        modifier = "in spanish."
-      };
+      case LevelSelector.NORMAL: {
+        modifier = "in spanish.";
+      }
 
-      case  LevelSelector.VERY_DETAILED: {
-        modifier = "as detailed as possible, in spanish."
-      };
-
+      case LevelSelector.VERY_DETAILED: {
+        modifier = "as detailed as possible, in spanish.";
+      }
     }
 
     // let prompt = "Explain the following excel formula: \n\n" + msg + + modifier;
 
-    let prompt = "Explain the following excel formula \""+msg+"\""+modifier+"\n"
+    let prompt =
+      'Explain the following excel formula "' + msg + '"' + modifier + "\n";
 
     const auth = getAuth();
     const user = auth.currentUser;
     const historyRef = doc(FireDB, "history", user.uid);
-        
+
     return new Promise(async (resolve, reject) => {
       const response = await openai.createCompletion({
         model: "text-davinci-002",
@@ -98,29 +97,33 @@ export function UnderstandPage() {
         query: msg,
         result: response.data.choices[0].text,
         date: Date.now(),
-        uid: user.uid
-      }
+        uid: user.uid,
+      };
 
       let docc = {
-        past: arrayUnion(history)
-      }
-      
-      updateDoc(historyRef, docc)
+        past: arrayUnion(history),
+      };
 
-      setResult(response.data.choices[0].text)
-    })
+      updateDoc(historyRef, docc);
+
+      setResult(response.data.choices[0].text);
+    });
   }
 
-  function understandFormula(){
-    toast.promise(doPrompt(), {
-      loading: 'Generando explicación...',
-      success: 'Explicación generada exitosamente!',
-      error: 'Ocurrio un error al generar la explicación!',
-    }, {
-      style: {
-          fontSize: "1.25rem"
+  function understandFormula() {
+    toast.promise(
+      doPrompt(),
+      {
+        loading: "Generando explicación...",
+        success: "Explicación generada exitosamente!",
+        error: "Ocurrio un error al generar la explicación!",
+      },
+      {
+        style: {
+          fontSize: "1.25rem",
+        },
       }
-   });
+    );
   }
 
   return (
@@ -134,7 +137,9 @@ export function UnderstandPage() {
         type="text"
         placeholder='=SUMIF(C:C, "&gt;5", A:B)'
         value={inputValue}
-        onChange={e => {setInputValue(e.target.value)}}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
       />
 
       <h2>Nivel de explicación</h2>
@@ -173,7 +178,12 @@ export function UnderstandPage() {
       </div>
 
       <div className={styles.buttonContainer}>
-        <button onClick={() => understandFormula()} className={styles.createButton}>Explicar</button>
+        <button
+          onClick={() => understandFormula()}
+          className={styles.createButton}
+        >
+          Explicar
+        </button>
       </div>
 
       {result !== "" ? showExplanation() : <></>}
