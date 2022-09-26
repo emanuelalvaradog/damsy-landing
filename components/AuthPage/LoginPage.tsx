@@ -15,10 +15,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { setUserState, setUserStripeId } from "../../store/slices/userSlice";
 
+const mapPlans = {
+  prod_MVONfIZrzdggde: "Anual",
+  prod_MVONyTQecS9Hiw: "Mensual",
+};
+
 export function LoginPage({ registerInstead }) {
   const [emailInputValue, setEmailInputValue] = React.useState("");
   const [passwordInputValue, setPasswordInputValue] = React.useState("");
   const [error, setError] = useState("");
+  const [stripeSubs, setStripeSubs] = useState([]);
   const [userData, setUserData] = useState<User>();
   const dispatch = useDispatch();
   const { uid } = useSelector((store: RootState) => store.user);
@@ -38,6 +44,19 @@ export function LoginPage({ registerInstead }) {
     return true;
   };
 
+  const fetchCustomers = async () => {
+    await fetch(
+      "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/api/list-customers",
+      {
+        method: "GET",
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        setStripeSubs(res.subscriptions.data);
+      });
+  };
+
   const loginAccount = async () => {
     if (validated()) {
       const auth = getAuth();
@@ -47,14 +66,16 @@ export function LoginPage({ registerInstead }) {
           // Signed in
           const user = userCredential.user;
 
-          // read stripe id from firestore
+          const plan = stripeSubs.find((el) => el.customer === user.email);
+          const productId = plan?.items?.data[0]?.price?.product;
+
           const userData: User = {
             name: user.displayName,
             email: user.email,
             uid: user.uid,
             stripeId: user.photoURL || "",
             isAdmin: false,
-            plan: "Free",
+            plan: mapPlans[productId] || "Free",
             lastBought: 0,
             created: user.metadata.createdAt,
           };
