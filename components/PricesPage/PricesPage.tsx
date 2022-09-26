@@ -3,15 +3,13 @@ import styles from "./PricesPage.module.css";
 import Router from "next/router";
 import { RootState } from "../../store/store";
 import { stripeCheckout } from "./stripeCheckout";
-import { useDispatch, useSelector } from "react-redux";
-import { FireDB } from "../Utils/Fire";
-import { doc, setDoc } from "firebase/firestore";
+import { useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export function PricesPage() {
   const auth = getAuth();
-  const { uid, email } = useSelector((store: RootState) => store.user);
+  const { email } = useSelector((store: RootState) => store.user);
   const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
@@ -44,7 +42,6 @@ export function PricesPage() {
                         quantity: 1,
                       },
                     ],
-                    userId: uid,
                     userEmail: email,
                   })
                 }
@@ -75,7 +72,6 @@ export function PricesPage() {
                         quantity: 1,
                       },
                     ],
-                    userId: uid,
                     userEmail: email,
                   })
                 }

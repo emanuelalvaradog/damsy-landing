@@ -100,7 +100,6 @@ export function ExcelAIPage() {
   });
 
   function handleSignOut() {
-    console.log("SIGN OUT");
     dispatch(clearUserState());
     signOut(auth);
     router.push("/");

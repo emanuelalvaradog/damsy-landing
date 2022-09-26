@@ -17,7 +17,6 @@ enum PlanName {
   PREMIUM,
 }
 
-
 export function MyAccountPage() {
   const [currentPlan, setCurrentPlan] = useState(PlanName.BASIC);
 
@@ -32,8 +31,8 @@ export function MyAccountPage() {
   const { email, plan } = useSelector((store: RootState) => store.user);
 
   useEffect(() => {
-    if(plan !== "Free") setCurrentPlan(PlanName.PREMIUM)
-    console.log(plan)
+    if (plan !== "Free") setCurrentPlan(PlanName.PREMIUM);
+    console.log(plan);
   }, []);
 
   function validate() {
@@ -86,7 +85,6 @@ export function MyAccountPage() {
   }
 
   function changePassword() {
-    console.log("Trying to change password");
     if (validate()) {
       toast.promise(
         tryToChangePass(),

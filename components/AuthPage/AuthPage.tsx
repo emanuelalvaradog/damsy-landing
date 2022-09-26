@@ -14,7 +14,6 @@ const enum AuthPageName {
 }
 
 export function AuthPage() {
-
   const auth = getAuth();
   const router = useRouter();
 
@@ -22,24 +21,22 @@ export function AuthPage() {
   const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
-    if(loading){
-      console.log("Loading...")
+    if (loading) {
+      console.log("Loading...");
       setCurrentAuthPage(AuthPageName.NONE);
-    }else{
-      if(user === null){
+    } else {
+      if (user === null) {
         // check if url is /auth?login or /auth?register
         if (router.asPath.includes("login")) {
           setCurrentAuthPage(AuthPageName.LOGIN);
         } else {
           setCurrentAuthPage(AuthPageName.REGISTER);
         }
-      }else{
-        console.log("logged-in");
+      } else {
         router.push("/excelai");
       }
     }
-
-  }, [loading])
+  }, [loading]);
 
   const loginInstead = () => {
     setCurrentAuthPage(AuthPageName.LOGIN);
@@ -51,8 +48,16 @@ export function AuthPage() {
 
   return (
     <div className={styles.page}>
-      {currentAuthPage == AuthPageName.LOGIN ?  <LoginPage registerInstead={registerInstead}></LoginPage> : <></>}
-      {currentAuthPage == AuthPageName.REGISTER ?  <RegisterPage loginInstead={loginInstead}></RegisterPage> : <></>}
+      {currentAuthPage == AuthPageName.LOGIN ? (
+        <LoginPage registerInstead={registerInstead}></LoginPage>
+      ) : (
+        <></>
+      )}
+      {currentAuthPage == AuthPageName.REGISTER ? (
+        <RegisterPage loginInstead={loginInstead}></RegisterPage>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
