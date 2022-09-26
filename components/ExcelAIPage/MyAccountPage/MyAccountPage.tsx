@@ -17,6 +17,7 @@ enum PlanName {
   PREMIUM,
 }
 
+
 export function MyAccountPage() {
   const [currentPlan, setCurrentPlan] = useState(PlanName.BASIC);
 
@@ -28,9 +29,11 @@ export function MyAccountPage() {
 
   const auth = getAuth();
 
-  const { email } = useSelector((store: RootState) => store.user);
+  const { email, plan } = useSelector((store: RootState) => store.user);
+
   useEffect(() => {
-    console.log();
+    if(plan !== "Free") setCurrentPlan(PlanName.PREMIUM)
+    console.log(plan)
   }, []);
 
   function validate() {
@@ -193,7 +196,7 @@ export function MyAccountPage() {
 
         <div className={styles.plan + " " + styles.currentPlan}>
           <div className={styles.planvert}>
-            <h3 className={styles.planName}>Premium</h3>
+            <h3 className={styles.planName}>{`Plan ${plan}`}</h3>
             <h3 className={styles.planDesc}>
               Felicidades tienes el plan premium!
             </h3>

@@ -47,21 +47,20 @@ export function LoginPage({ registerInstead }) {
           // Signed in
           const user = userCredential.user;
 
-          // console.log(user);
+          console.log(user);
 
           // read stripe id from firestore
           const userData: User = {
             name: user.displayName,
             email: user.email,
             uid: user.uid,
-            stripeId: "",
+            stripeId: user.photoURL || "",
             isAdmin: false,
             plan: "Free",
             lastBought: 0,
             created: user.metadata.createdAt,
           };
 
-          setUserData(userData);
           dispatch(setUserState(userData));
 
           setPersistence(auth, browserSessionPersistence).then(() => {
@@ -71,6 +70,8 @@ export function LoginPage({ registerInstead }) {
               passwordInputValue
             );
           });
+
+          Router.push("/excelai");
         })
         .catch((err) => {
           const errorCode = err.code;
@@ -81,19 +82,13 @@ export function LoginPage({ registerInstead }) {
                 setError("Usuario no encontrado, ¿lo escribiste bien?");
               }
               break;
-            case "auth/user-not-found ":
+            case "auth/user-not-found":
               {
                 setError("Contraseña incorrecta, ¿la escribiste bien?");
               }
               break;
           }
         });
-
-      const docRef = doc(FireDB, `users/${uid}/stripeId`);
-      const docSnap = await getDoc(docRef);
-      const userStripeId = docSnap.data().soString();
-      dispatch(setUserStripeId({ stripeId: userStripeId }));
-      Router.push("/excelai");
     }
   };
 

@@ -3,9 +3,7 @@ import { CreateFormulaPage } from "./CreateFormulaPage/CreateFormulaPage";
 
 import styles from "./ExcelAIPage.module.css";
 import { HistoryPage } from "./HistoryPage/HistoryPage";
-import { getAuth, signOut } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { FireDB } from "../Utils/Fire";
+import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { useRouter } from "next/router";
 import { MyAccountPage } from "./MyAccountPage/MyAccountPage";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -20,6 +18,11 @@ const enum Screens {
   ACCOUNT,
 }
 
+const mapPlans = {
+  prod_MRqFyY6M5JGo1s: "Anual",
+  prod_MRp6LdZBCaoQL6: "Mensual",
+};
+
 export function ExcelAIPage() {
   const [currentScreen, setCurrentScreen] = React.useState(
     Screens.CREATE_FORMULA
@@ -31,6 +34,7 @@ export function ExcelAIPage() {
   const [user, loading] = useAuthState(auth);
   const userData = useSelector((store: RootState) => store.user);
   const [stripeUsers, setStripeUsers] = useState([]);
+  const [stripeSubs, setStripeSubs] = useState([]);
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -38,7 +42,10 @@ export function ExcelAIPage() {
         method: "GET",
       })
         .then((res) => res.json())
-        .then((res) => setStripeUsers(res.data));
+        .then((res) => {
+          setStripeUsers(res.customers.data);
+          setStripeSubs(res.subscriptions.data);
+        });
     };
 
     fetchCustomers();
@@ -53,7 +60,8 @@ export function ExcelAIPage() {
       } else {
         if (router.asPath.includes("success")) {
           const customer = stripeUsers.find((el) => el.email === user.email);
-          console.log(user);
+          const plan = stripeSubs.find((el) => el.customer === customer.id);
+          const productId = plan?.items?.data[0]?.price?.product;
 
           dispatch(
             setUserState({
@@ -62,28 +70,25 @@ export function ExcelAIPage() {
               uid: user.uid,
               stripeId: customer.id,
               isAdmin: false,
-              plan: "Free",
+              plan: mapPlans[productId],
               lastBought: 0,
               created: user.metadata.createdAt,
             })
           );
 
-          const userRef = doc(FireDB, "users", userData.uid);
-
-          const userStruct = {
-            ...userData,
-            stripeId: customer.id,
-          };
-
-          setDoc(userRef, userStruct).then(() => console.log("Done"));
+          updateProfile(user, { photoURL: customer.id });
         } else {
+          const customer = user.phoneNumber;
+          const plan = stripeSubs.find((el) => el.customer === customer);
+          const productId = plan?.items?.data[0]?.price?.product;
+
           const userDataStruct: User = {
             name: user.displayName,
             email: user.email,
             uid: user.uid,
             stripeId: userData.stripeId,
             isAdmin: false,
-            plan: "Free",
+            plan: mapPlans[productId] || userData.plan,
             lastBought: 0,
             created: user.metadata.createdAt,
           };
