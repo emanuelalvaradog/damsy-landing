@@ -4,8 +4,9 @@ export interface User {
   name: string;
   email: string;
   uid: string;
+  stripeId: string;
   isAdmin: boolean;
-  plan: "Free" | "Monthly" | "Year";
+  plan: string;
   lastBought: unix_stamp;
   created: unix_stamp;
 }

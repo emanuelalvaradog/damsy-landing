@@ -6,6 +6,7 @@ const initialState: User = {
   name: "",
   email: "",
   uid: "",
+  stripeId: "",
   isAdmin: false,
   plan: "Free",
   lastBought: 0,
@@ -21,6 +22,7 @@ export const userSlice = createSlice({
       state.email = payload.email;
       state.uid = payload.uid;
       state.isAdmin = payload.isAdmin;
+      state.stripeId = payload.stripeId;
       state.plan = payload.plan;
       state.lastBought = payload.lastBought;
       state.created = payload.created;
@@ -31,12 +33,18 @@ export const userSlice = createSlice({
       state.name = "";
       state.email = "";
       state.uid = "";
+      state.stripeId = "";
       state.isAdmin = false;
       state.plan = "Free";
       state.lastBought = 0;
       state.created = 0;
     },
+
+    setUserStripeId(state, { payload }) {
+      state.stripeId = payload.stripeId;
+    },
   },
 });
 
-export const { setUserState, clearUserState } = userSlice.actions;
+export const { setUserState, clearUserState, setUserStripeId } =
+  userSlice.actions;

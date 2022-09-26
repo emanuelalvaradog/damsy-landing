@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CreateFormulaPage } from "./CreateFormulaPage/CreateFormulaPage";
 
 import styles from "./ExcelAIPage.module.css";
 import { HistoryPage } from "./HistoryPage/HistoryPage";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { useRouter } from "next/router";
 import { MyAccountPage } from "./MyAccountPage/MyAccountPage";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import { RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserState, clearUserState } from "../../store/slices/userSlice";
-import { User } from "../Utils/User"
+import { User } from "../Utils/User";
 
 const enum Screens {
   CREATE_FORMULA,
@@ -18,40 +18,92 @@ const enum Screens {
   ACCOUNT,
 }
 
+const mapPlans = {
+  prod_MRqFyY6M5JGo1s: "Anual",
+  prod_MRp6LdZBCaoQL6: "Mensual",
+};
+
 export function ExcelAIPage() {
-  const [currentScreen, setCurrentScreen] = React.useState(Screens.CREATE_FORMULA);
+  const [currentScreen, setCurrentScreen] = React.useState(
+    Screens.CREATE_FORMULA
+  );
 
   const dispatch = useDispatch();
   const router = useRouter();
   const auth = getAuth();
   const [user, loading] = useAuthState(auth);
-  const { uid } = useSelector((store) => store.user);
+  const userData = useSelector((store: RootState) => store.user);
+  const [stripeUsers, setStripeUsers] = useState([]);
+  const [stripeSubs, setStripeSubs] = useState([]);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      await fetch(
+        "https://damsy-landing-arbc2iq8n-emanuelalvaradog.vercel.app/api/list-customers",
+        {
+          method: "GET",
+        }
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          setStripeUsers(res.customers.data);
+          setStripeSubs(res.subscriptions.data);
+        });
+    };
+
+    fetchCustomers();
+  }, []);
 
   useEffect(() => {
     if (loading) {
       console.log("Loading...");
-    }else{
+    } else {
+      if (user === null) {
+        router.push("/");
+      } else {
+        if (router.asPath.includes("success")) {
+          const customer = stripeUsers.find((el) => el.email === user.email);
+          const plan = stripeSubs.find((el) => el.customer === customer.id);
+          const productId = plan?.items?.data[0]?.price?.product;
 
-    if (user === null) {
-      router.push("/");
-    }else{
-      const userData: User = {
-        name: user.displayName,
-        email: user.email,
-        uid: user.uid,
-        isAdmin: false,
-        plan: "Free",
-        lastBought: 0,
-        created: user.metadata.createdAt,
-    };
-    dispatch(setUserState(userData));
+          dispatch(
+            setUserState({
+              name: user.displayName,
+              email: user.email,
+              uid: user.uid,
+              stripeId: customer.id,
+              isAdmin: false,
+              plan: mapPlans[productId],
+              lastBought: 0,
+              created: user.metadata.createdAt,
+            })
+          );
+
+          updateProfile(user, { photoURL: customer.id });
+        } else {
+          const customer = user.phoneNumber;
+          const plan = stripeSubs.find((el) => el.customer === customer);
+          const productId = plan?.items?.data[0]?.price?.product;
+
+          const userDataStruct: User = {
+            name: user.displayName,
+            email: user.email,
+            uid: user.uid,
+            stripeId: userData.stripeId,
+            isAdmin: false,
+            plan: mapPlans[productId] || userData.plan,
+            lastBought: 0,
+            created: user.metadata.createdAt,
+          };
+
+          dispatch(setUserState(userDataStruct));
+        }
+      }
     }
-  }
-
   });
 
   function handleSignOut() {
-    console.log("SIGN OUT")
+    console.log("SIGN OUT");
     dispatch(clearUserState());
     signOut(auth);
     router.push("/");
@@ -59,7 +111,7 @@ export function ExcelAIPage() {
 
   return (
     <>
-      {uid && (
+      {userData.uid && (
         <div className={styles.page}>
           <div className={styles.menu}>
             <h1 className={styles.title}>Menú</h1>
