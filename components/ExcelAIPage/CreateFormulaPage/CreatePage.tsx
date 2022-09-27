@@ -52,6 +52,7 @@ export function CreatePage() {
     //   msg +
     //   "}";
 
+    
     let prompt = "Generate an excel formula using spanish version that \"" + msg + "\"";
     
     const response = await openai.createCompletion({
