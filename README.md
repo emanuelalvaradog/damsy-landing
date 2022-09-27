@@ -2,7 +2,7 @@
 ExcelAI is a web app that translates a natural language prompt to excel formulas. **Just write what you need an let us do the rest**
 
 ## Demo
-
+[Live Demo](https://damsy-landing.vercel.app)
 ![excelai formula creator](https://i.ibb.co/MhVbCvK/damsy.jpg)
 ![excelai formula explain](https://i.ibb.co/n02jqCw/Screenshot-2022-09-26-205322.jpg)
 ![excelai formula history](https://i.ibb.co/HY2vStz/damsy-Historial.jpg)
