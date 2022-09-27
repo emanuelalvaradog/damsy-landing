@@ -52,7 +52,7 @@ export function CreatePage() {
     //   msg +
     //   "}";
 
-    
+
     let prompt = "Generate an excel formula using spanish version that \"" + msg + "\"";
     
     const response = await openai.createCompletion({
@@ -76,10 +76,11 @@ export function CreatePage() {
     const user = auth.currentUser;
     const historyRef = doc(FireDB, "history", user.uid);
 
-    let prompt =
-      "Generate an excel formula and don´t reply with something that isn't a formula using the format above for the following: {input: \"" +
-      msg +
-      '"}';
+    // let prompt =
+    //   "Generate an excel formula and don´t reply with something that isn't a formula using the format above for the following: {input: \"" +
+    //   msg +
+    //   '"}';
+    let prompt = "Generate an excel formula using spanish version that \"" + msg + "\"";
 
     return new Promise(async (resolve, reject) => {
       const response = await openai.createCompletion({
