@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { HistoryInterface } from "../../Utils/History";
 import { getAuth } from "firebase/auth";
 import { FireDB } from "../../Utils/Fire";
-import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 const configuration = new Configuration({
   apiKey: process.env.NEXT_PUBLIC_OPENAI,
@@ -103,7 +103,13 @@ export function CreatePage() {
         past: arrayUnion(history),
       };
 
-      updateDoc(historyRef, docc);
+      const dsnap = getDoc(historyRef).then(doc => {
+        if(doc.exists()){
+          updateDoc(historyRef, docc);
+        }else{
+          setDoc(historyRef, docc)
+        }
+      })
 
       setFormulaResult(response.data.choices[0].text);
       resolve("listo!");
