@@ -47,11 +47,13 @@ export function CreatePage() {
   async function req() {
     // let msg = "Sum first ten items of row A and row B and place them in row C.";
     let msg = formulaInputValue;
-    let prompt =
-      "Generate an excel formula and don´t reply with something that isn't a formula using the format above for: \n\n{input: " +
-      msg +
-      "}";
+    // let prompt =
+    //   "Generate an excel formula and don´t reply with something that isn't a formula using the format above for: \n\n{input: " +
+    //   msg +
+    //   "}";
 
+    let prompt = "Generate an excel formula using spanish version that \"" + msg + "\"";
+    
     const response = await openai.createCompletion({
       model: "text-davinci-002",
       prompt,
