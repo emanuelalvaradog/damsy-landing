@@ -1,43 +1,28 @@
+# Damsy - ExcelAI
+ExcelAI is a web app that translates a natural language prompt to excel formulas. **Just write what you need an let us do the rest**
 
-# Damsy
+## Demo
 
-Cosas importantes por hacer:
-1. Implementar localizacion para que cambie de lenguaje con IP
-2. Implementar Firebase
-2.1 Auth
-2.2 Firestore
-3. Implementar la API de OpenAI
-4. Hacer el resto de la app
+![excelai formula creator](https://i.ibb.co/MhVbCvK/damsy.jpg)
+![excelai formula explain](https://i.ibb.co/n02jqCw/Screenshot-2022-09-26-205322.jpg)
+![excelai formula history](https://i.ibb.co/HY2vStz/damsy-Historial.jpg)
+![excelai accout page](https://i.ibb.co/Yfw69dN/Screenshot-2022-09-26-205710.jpg)
 
-## Getting Started 
+## Features
+- Authentication
+- Translate natural language to an excel formula with AI
+- Understand existing formulas
+- Stripe integration to get different premium plans
 
-First, run the development server:
+## Process
+### Built with:
+Technologies used in the project
+- NextJS
+- NodeJS
+- Firebase
+- OpenAI
+### Other tools:
+- Figma
 
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Authors:
+Made with 💜 by [cruzryan](https://github.com/cruzryan) & [emanuelalvaradog](https://github.com/emanuelalvaradog)
