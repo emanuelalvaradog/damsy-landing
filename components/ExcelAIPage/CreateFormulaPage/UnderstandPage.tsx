@@ -113,6 +113,7 @@ export function UnderstandPage() {
       })
 
       setResult(response.data.choices[0].text);
+      resolve("listo!");
     });
   }
 
