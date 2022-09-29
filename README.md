@@ -1,5 +1,5 @@
-# Damsy - ExcelAI
-ExcelAI is a web app that translates a natural language prompt to excel formulas. **Just write what you need an let us do the rest**
+# [Damsy - ExcelAI](https://damsy-landing.vercel.app)
+ExcelAI is a web app that translates a natural language prompt to excel formulas. **Just write what you need an let us do the rest**. 
 
 ## [Live Demo](https://damsy-landing.vercel.app)
 
